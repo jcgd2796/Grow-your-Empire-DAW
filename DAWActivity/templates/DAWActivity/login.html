@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Compiled and minified CSS -->
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!-- Compiled and minified JavaScript -->
+   	 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </head>
+    <body class="green lighten-4">
+        <form action='/DAWActivity/login' method="POST">
+        {%csrf_token %}
+            <div class="container s6">
+		<p>{{msg}}</p>
+		<div class="input-field col s6">
+                	<input id="User" type="text" name="user"/>
+			<label for="User">User</label>
+		</div>
+		<div class="input-field col s6">
+                	<input id="pass" type="password" name="password"/>
+			<label for="pass">Password</label>
+            	</div>
+                <input class="waves-effect waves-light btn-large green darken-2" type="submit" value="Log in" name="login" />
+	    </div>
+        </form>
+    </body>
+</html>

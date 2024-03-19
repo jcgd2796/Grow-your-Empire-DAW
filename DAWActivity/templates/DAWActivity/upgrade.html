@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Upgrade</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+	function checkBounds(){
+		const building = document.getElementById("building");
+		const index = building.selectedIndex;
+		if(index === 0){return false;}
+                if (index === 1 && (parseInt({{village.woodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.woodLevel}}*5) > parseInt({{village.storedStone}}))){
+			alert("Recursos insuficientes");
+			return false;                        
+                }else{
+		        if (index === 2 && (parseInt({{village.stoneLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.stoneLevel}}*5) > parseInt({{village.storedStone}}))){
+		        	alert("Recursos insuficientes");
+		                return false;
+			}else{
+				if(index === 3 && (parseInt({{village.foodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.foodLevel}}*5) > parseInt({{village.storedStone}}))){
+			       		alert("Recursos insuficientes");
+				        return false;
+				}else{
+					if(index === 4 && (parseInt({{village.wallLevel}}*5) > parseInt({{village.storedWood}}) || parseInt({{village.wallLevel}}*10) > parseInt({{village.storedStone}}))){
+						alert("Recursos insuficientes");
+						return false;
+					}else{
+						if(parseInt({{village.storageLevel}}*5) > parseInt({{village.storedWood}}) || parseInt({{village.storageLevel}}*2) > parseInt({{village.storedStone}})){
+							alert("Recursos insuficientes");
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+    </script>
+    
+    </head>
+    <body class="green lighten-3">
+        <div class="container">
+                        <p class="flow-text">Actualizar edificio</p>
+                        <form id="upgradeForm" name="upgradeForm" action="./saveUpgrade" onsubmit="return checkBounds()" method="POST">
+                        {%csrf_token %}
+                        <div class="row">
+                                <div class="col s12">
+                                        <div class="card green">
+                                                <div class="card-content white-text">
+                                                        <table class="stripped green" border="1" cellspacing="2">
+                                                                <thead>
+                                                                        <tr>
+                                                                                <th><span class="card-title">Selecciona el edificio que mejorar</span></th>
+                                                                                <th><span class="card-title">Coste de la mejora</span></th>
+									</tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                        <tr>
+                                                                                <td><select id="building" class="browser-default" name="building">
+                                                                                		<option hidden selected>-</option>
+                                                                                                {% if 1 in upgrades%}
+                                                                                                <option>Granja (nivel {{ village.foodLevel }})</option>
+                                                                                                {%endif%}
+                                                                                   		{% if 2 in upgrades%}
+                                                                                                <option>Aserradero (nivel {{ village.woodLevel }})</option>
+                                                                                                {%endif%}
+                                                                                                {% if 3 in upgrades%}
+                                                                                                <option>Cantera (nivel {{ village.stoneLevel }})</option>
+                                                                                                {%endif%}
+                                                                                                {% if 4 in upgrades%}
+                                                                                                <option>Murallas (nivel {{ village.wallLevel }})</option>
+                                                                                                {%endif%}
+                                                                                                {% if 5 in upgrades%}
+                                                                                                <option>Almacenamiento (nivel {{ village.storageLevel }})</option>
+                                                                                                {%endif%}
+                                                                                </select></td>
+										<td><p id="cost"></p></td>
+                                                                        </tr>
+                                                                </tbody>
+                                                        </table>
+                                      		</div>
+					  </div>
+                                </div>
+                           </div>
+                                
+                        <input class="waves-effect waves-light btn-large green darken-2" type="submit" value="Enviar" name="submit" />
+                        <input type="hidden" id="selectedIndex" name="selectedIndex" value=""</input>
+                        <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager' >Atrás</a>
+                        </form>
+                        
+        </div>
+        <script type="text/javascript">
+    	
+	var costText = document.getElementById("cost");
+	var building = document.getElementById("building");
+	var ind = document.getElementById("selectedIndex");
+	building.addEventListener("change", () => {
+		const index = building.value;
+		if (index.includes("Granja")){
+				costText.textContent = ({{village.foodLevel}}*7)+" unidades de madera,\n"+({{village.foodLevel}}*3)+" unidades de piedra.";;
+				ind.value = 1;
+		}else{
+			if (index.includes("Aserradero")){
+				costText.textContent = ({{village.woodLevel}}*7)+" unidades de madera,\n"+({{village.woodLevel}}*3)+" unidades de piedra.";
+				ind.value = 2;
+			}else{
+				if(index.includes("Cantera")){
+					ind.value = 3;
+					costText.textContent = ({{village.stoneLevel}}*7)+" unidades de madera,\n"+({{village.stoneLevel}}*3)+" unidades de piedra.";
+				}else{
+					if(index.includes("Muralla")){
+						costText.textContent = ({{village.wallLevel}}*5)+" unidades de madera,\n"+({{village.wallLevel}}*10)+" unidades de piedra.";
+						ind.value = 4;
+					}else{
+						if(index.includes("Almacenamiento")){
+							ind.value = 5;
+							costText.textContent = ({{village.storageLevel}}*3)+" unidades de madera,\n"+({{village.storageLevel}}*2)+" unidades de piedra.";
+						}
+					}
+				}
+			}
+		}	
+	})		
+    	</script>	
+    </body>
+</html>
+
+

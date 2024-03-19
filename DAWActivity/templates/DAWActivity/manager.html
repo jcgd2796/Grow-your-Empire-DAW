@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Aldea {{village.villageName}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </head>
+    <body class="green lighten-3">
+    	
+	<div class="right-align">
+	<a class="waves-effect waves-light btn-small green darken-1" href='/DAWActivity/logout'>Cerrar sesión</a>
+	<a class="waves-effect waves-light btn-small green darken-1" href='/DAWActivity' >Volver a la página principal</a>
+	<a class="waves-effect waves-light btn-small green darken-1" href='/DAWActivity/rules' >Reglas</a>
+	</div>
+        <div class="container">
+        	<div class="row">
+                	<div class="col s12">
+                                <div class="card green">
+                                        <div class="card-content white-text">
+                                        	<p class="flow-text">{{text}}</p>
+                                        	<table class="stripped green" border="1" cellspacing="2">
+                                        		<tbody>
+                                                                <tr>
+                                                                        <td class="flow-text">Nombre</td>
+                                                                        <td class="flow-text">{{village.villageName}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Alimento almacenado</td>
+                                                                        <td class="flow-text">{{village.storedFood}}</td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/trade' >Comerciar</a> </td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/manageOffers' >Ver ofertas</a> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Madera almacenada</td>
+                                                                        <td class="flow-text">{{village.storedWood}}</td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/trade' >Comerciar</a> </td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/manageOffers' >Ver ofertas</a> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Piedra almacenada</td>
+                                                                        <td class="flow-text">{{village.storedStone}}</td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/trade' >Comerciar</a> </td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/manageOffers' >Ver ofertas</a> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Alimento diario obtenido</td>
+                                                                        <td class="flow-text">{{village.dailyFood}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Madera diaria obtenida</td>
+                                                                        <td class="flow-text">{{village.dailyWood}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Piedra diaria obtenida</td>
+                                                                        <td class="flow-text">{{village.dailyStone}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Nivel de recogida de alimentos</td>
+                                                                        <td class="flow-text">{{village.foodLevel}}</td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/upgrade' >Mejorar</a> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Nivel de recogida de madera</td>
+                                                                        <td class="flow-text">{{village.woodLevel}}</td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/upgrade' >Mejorar</a> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Nivel de recogida de piedra</td>
+                                                                        <td class="flow-text">{{village.stoneLevel}}</td>
+                                                                        <td><a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/upgrade' >Mejorar</a> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Nivel de las murallas</td>
+                                                                        <td class="flow-text">{{village.wallLevel}}</td>
+                                                                        <td><a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/upgrade' >Mejorar</a> </td>
+                                                                </tr> 
+                                                                <tr>
+                                                                        <td class="flow-text">Nivel del almacenamiento</td>
+                                                                        <td class="flow-text">{{village.storageLevel}}</td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/upgrade' >Mejorar</a> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td class="flow-text">Soldados</td>
+                                                                        <td class="flow-text">{{village.soldiers}}</td>
+                                                                        <td> <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/attack' >Atacar</a> </td>
+                                                                        <td><a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/train' >Entrenar soldados</a> </td>
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
+                                                <table class="stripped green" border="1" cellspacing="2">
+                                			<thead>
+                                                                <tr>
+                                                                        <th><span class="flow-text">Actividades recientes</span></th>
+                                                                </tr>
+                                                        </thead>
+                                                        <tbody>
+									{%for activity in activities%}
+									<tr>
+										<th>[{{activity.activityDate}}] {{activity.activityText}} </th>
+									</tr>
+									{%endfor%}
+							</tbody>
+						</table>
+        </div>
+    </body>
+</html>

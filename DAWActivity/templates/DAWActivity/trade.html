@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Trade</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+	function checkBounds(){
+		if(parseInt(document.tradeForm.offeredWood.value) < 0 || parseInt(document.tradeForm.offeredWood.value) > parseInt({{village.storedWood}})
+		|| parseInt(document.tradeForm.offeredStone.value) < 0 || parseInt(document.tradeForm.offeredStone.value) > parseInt({{village.storedStone}})
+		|| parseInt(document.tradeForm.offeredFood.value) < 0 || parseInt(document.tradeForm.offeredFood.value) > parseInt({{village.storedFood}})
+		|| parseInt(document.tradeForm.wantedWood.value) < 0 || parseInt(document.tradeForm.wantedFood.value) < 0
+		|| parseInt(document.tradeForm.wantedStone.value) < 0){
+			alert("Has seleccionado una cantidad de recursos no válida, o estás ofreciendo más recursos de los disponibles.");
+			return false;
+		}else{
+			return true;
+		}
+	}
+    </script>	
+    </head>
+    <body class="green lighten-3">
+        <div class="container">
+                        <p class="flow-text">Comerciar</p>
+                        <form name="tradeForm" action="./saveTrade" onsubmit="return checkBounds()" method="POST">
+                        {%csrf_token %}
+                        <div class="row">
+                                <div class="col s12">
+                                        <div class="card green">
+                                                <div class="card-content white-text">
+                                                        <table class="stripped green" border="1" cellspacing="2">
+                                                                <tbody>
+                                                                        <tr>
+                                                                        	<td>Aldea con la que comerciar</td>
+                                                                                <td><select class="browser-default" name="target">
+												{% for village in villages %}
+                                                                                                <option>{{ village.villageName }}</option>
+												{% endfor %}
+                                                                                </select></td>
+                                                                        </tr>
+									<tr>
+										<td>Madera ofrecida</td>
+										<td>Piedra ofrecida</td>
+										<td>Alimento ofrecido</td>
+									</tr>
+									<tr>
+										<td><input type="number" name="offeredWood" id="offeredWood" value="0" size=25></td>
+										<td><input type="number" name="offeredStone" id="offeredStone" size=25 value="0"></td>
+										<td><input type="number" name="offeredFood" id="offeredFood" size=25 value="0"></td>
+									</tr>
+									<tr>
+                                                                                <td>Madera solicitada</td>
+                                                                                <td>Piedra solicitada</td>
+                                                                                <td>Alimento solicitado</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                                <td><input type="number" name="wantedWood" id="wantedWood" size=25 value="0">
+                                                                                <td><input type="number" name="wantedStone" id="wantedStone" size=25 value="0">
+                                                                                <td><input type="number" name="wantedFood" id="wantedFood" size=25 value="0">
+                                                                        </tr>
+
+                                                                </tbody>
+                                                        </table>-
+                                      		</div>
+					  </div>
+                                </div>
+                           </div>
+                                
+                        <input class="waves-effect waves-light btn-large green darken-2" type="submit" value="Enviar" name="submit" />
+                        <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager' >Atrás</a>
+                        </form>
+                        
+        </div>
+    </body>
+</html>
+
+
