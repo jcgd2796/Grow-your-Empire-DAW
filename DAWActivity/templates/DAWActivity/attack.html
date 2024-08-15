@@ -19,41 +19,35 @@
 	}
     </script>	
     </head>
-    <body class="green lighten-3">
+    <body class="grey lighten-5 flow-text">
         <div class="container">
-                        <p class="flow-text">Attack</p>
-                        <form id="attackForm" name="attackForm" action="./saveAttack" onsubmit="return checkBounds()" method="POST">
-                        {%csrf_token %}
-                        <div class="row">
-                                <div class="col s12">
-                                        <div class="card green">
-                                                <div class="card-content white-text">
-                                                        <table class="stripped green" border="1" cellspacing="2">
-                                                                <thead>
-                                                                        <tr>
-                                                                                <th><span class="card-title">Selecciona la aldea que atacar</span></th>
-                                                                                <th><span class="card-title">Escoge el número de soldados con los que atacar la aldea</span></th>
-									</tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                        <tr>
-                                                                                <td><select class="browser-default" name="objective">
-												{% for village in villages %}
-                                                                                                <option>{{ village.villageName }}</option>
-												{% endfor %}
-                                                                                </select></td>
-										<td><input type="number" name="units" id="units" size=25></td>
-                                                                        </tr>
-                                                                </tbody>
-                                                        </table>
-                                      		</div>
-					  </div>
-                                </div>
-                           </div>
-                                
-                        <input class="waves-effect waves-light btn-large green darken-2" type="submit" value="Enviar" name="submit" />
-                        <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager' >Atrás</a>
-                        </form>
+                <p>Attack</p>
+                <form id="attackForm" name="attackForm" action="./saveAttack" onsubmit="return checkBounds()" method="POST">
+                {%csrf_token %}
+                <div class="row">
+                        <table class="col s12 card blue lighten-4" border="1" cellspacing="2">
+                                <thead>
+                                        <tr>
+                                                <th class="col s6">Selecciona la aldea que atacar</th>
+                                                <th class="col s6">Escoge el número de soldados con los que atacar la aldea</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                                <td class="col s6"><select class="browser-default" name="objective">
+                                                        {% for village in villages %}
+                                                        <option>{{ village.villageName }}</option>
+                                                        {% endfor %}
+                                                </select></td>
+                                                <td class="col s6"><input type="number" name="units" id="units" size=25></td>
+                                        </tr>
+                                </tbody>
+                        </table>
+                </div>
+                        
+                <input class="waves-effect waves-light btn-large blue darken-2" type="submit" value="Enviar" name="submit" />
+                <a class="waves-effect waves-light btn-large blue darken-2 black-text" href='/DAWActivity/manager' >Atrás</a>
+                </form>
                         
         </div>
     </body>

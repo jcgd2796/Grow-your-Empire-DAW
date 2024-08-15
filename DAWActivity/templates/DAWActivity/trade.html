@@ -23,55 +23,50 @@
 	}
     </script>	
     </head>
-    <body class="green lighten-3">
+    <body class="grey lighten-5 flow-text">
         <div class="container">
-                        <p class="flow-text">Comerciar</p>
+                        <p>Comerciar</p>
                         <form name="tradeForm" action="./saveTrade" onsubmit="return checkBounds()" method="POST">
                         {%csrf_token %}
                         <div class="row">
                                 <div class="col s12">
-                                        <div class="card green">
-                                                <div class="card-content white-text">
-                                                        <table class="stripped green" border="1" cellspacing="2">
-                                                                <tbody>
-                                                                        <tr>
-                                                                        	<td>Aldea con la que comerciar</td>
-                                                                                <td><select class="browser-default" name="target">
-												{% for village in villages %}
-                                                                                                <option>{{ village.villageName }}</option>
-												{% endfor %}
-                                                                                </select></td>
-                                                                        </tr>
-									<tr>
-										<td>Madera ofrecida</td>
-										<td>Piedra ofrecida</td>
-										<td>Alimento ofrecido</td>
-									</tr>
-									<tr>
-										<td><input type="number" name="offeredWood" id="offeredWood" value="0" size=25></td>
-										<td><input type="number" name="offeredStone" id="offeredStone" size=25 value="0"></td>
-										<td><input type="number" name="offeredFood" id="offeredFood" size=25 value="0"></td>
-									</tr>
-									<tr>
-                                                                                <td>Madera solicitada</td>
-                                                                                <td>Piedra solicitada</td>
-                                                                                <td>Alimento solicitado</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                                <td><input type="number" name="wantedWood" id="wantedWood" size=25 value="0">
-                                                                                <td><input type="number" name="wantedStone" id="wantedStone" size=25 value="0">
-                                                                                <td><input type="number" name="wantedFood" id="wantedFood" size=25 value="0">
-                                                                        </tr>
-
-                                                                </tbody>
-                                                        </table>-
-                                      		</div>
-					  </div>
+                                        <table class="card blue lighten-4" border="1" cellspacing="2">
+                                                <tbody>
+                                                        <tr>
+                                                                <td>Aldea con la que comerciar</td>
+                                                                <td><select class="browser-default flow-text" name="target">
+                                                                                {% for village in villages %}
+                                                                                <option>{{ village.villageName }}</option>
+                                                                                {% endfor %}
+                                                                </select></td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Madera ofrecida</td>
+                                                                <td>Piedra ofrecida</td>
+                                                                <td>Alimento ofrecido</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td><input type="number" name="offeredWood" id="offeredWood" value="0" size=25></td>
+                                                                <td><input type="number" name="offeredStone" id="offeredStone" size=25 value="0"></td>
+                                                                <td><input type="number" name="offeredFood" id="offeredFood" size=25 value="0"></td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Madera solicitada</td>
+                                                                <td>Piedra solicitada</td>
+                                                                <td>Alimento solicitado</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td><input type="number" name="wantedWood" id="wantedWood" size=25 value="0">
+                                                                <td><input type="number" name="wantedStone" id="wantedStone" size=25 value="0">
+                                                                <td><input type="number" name="wantedFood" id="wantedFood" size=25 value="0">
+                                                        </tr>
+                                                </tbody>
+                                        </table>
                                 </div>
                            </div>
                                 
-                        <input class="waves-effect waves-light btn-large green darken-2" type="submit" value="Enviar" name="submit" />
-                        <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager' >Atrás</a>
+                        <input class="waves-effect waves-light btn-large blue darken-1 black-text" type="submit" value="Enviar" name="submit" />
+                        <a class="waves-effect waves-light btn-large blue darken-1 black-text" href='/DAWActivity/manager' >Atrás</a>
                         </form>
                         
         </div>

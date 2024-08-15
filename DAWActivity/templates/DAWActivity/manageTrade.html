@@ -9,41 +9,36 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </head>
-    <body class="green lighten-3">
-        <div class="container">
-                        
+    <body class="grey lighten-5 flow-text">
+        <div class="container"> 
                         <div class="row">
-                                <div class="col s12">
-                                        <div class="card green">
-                                                <div class="card-content white-text">
-                                                	<p class="flow-text">Peticiones de comercio pendientes</p>
-                                                        <table class="stripped green" border="1" cellspacing="2">
-                                                                <tbody>
-                                                                	{%for offer in offersOwned%}
-									<tr>
-										<td>Has ofrecido a {{offer.destination}} {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
-										<td><a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/cancelOffer{{offer.id}}' >Cancelar</a></td>
-									</tr>
-									{%endfor%}
-                                                                </tbody>
-                                                        </table>
-                                                        <p class="flow-text">Peticiones de comercio recibidas</p>
-                                                        <table class="stripped green" border="1" cellspacing="2">
-                                                                <tbody>
-                                                                	{%for offer in offersReceived%}
-									<tr>
-										<td>{{offer.source}} te ofrece {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
-										<td><a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/acceptOffer{{offer.id}}' >Aceptar</a></td>
-										<td><a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager/RejectOffer{{offer.id}}' >Rechazar</a></td>
-									</tr>
-									{%endfor%}
-                                                                </tbody>
-                                                        </table>
-                                      		</div>
-					  </div>
+                                <div class=" card blue lighten-4 col s12">
+                                        <p>Peticiones de comercio pendientes</p>
+                                        <table border="1" cellspacing="2">
+                                                <tbody>
+                                                        {%for offer in offersOwned%}
+                                                        <tr>
+                                                                <td>Has ofrecido a {{offer.destination}} {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
+                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/DAWActivity/manager/cancelOffer{{offer.id}}' >Cancelar</a></td>
+                                                        </tr>
+                                                        {%endfor%}
+                                                </tbody>
+                                        </table>
+                                        <p>Peticiones de comercio recibidas</p>
+                                        <table border="1" cellspacing="2">
+                                                <tbody>
+                                                        {%for offer in offersReceived%}
+                                                        <tr>
+                                                                <td>{{offer.source}} te ofrece {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
+                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/DAWActivity/manager/acceptOffer{{offer.id}}' >Aceptar</a></td>
+                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/DAWActivity/manager/RejectOffer{{offer.id}}' >Rechazar</a></td>
+                                                        </tr>
+                                                        {%endfor%}
+                                                </tbody>
+                                        </table>
                                 </div>
                            </div>
-                        <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager' >Atrás</a>
+                        <a class="waves-effect waves-light btn-large blue darken-2" href='/DAWActivity/manager' >Atrás</a>
                         </form>
                         
         </div>

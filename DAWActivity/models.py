@@ -67,6 +67,8 @@ class Village(models.Model):
 	wallLevel = models.IntegerField("Walls level")
 	storageLevel = models.IntegerField("Storage level")
 	soldiers = models.IntegerField("Amount of units")
+	lastLogin = models.DateField("Last login")
+	disabled = models.BooleanField("Disabled")
 	owner = models.ForeignKey(
 		User,
 		on_delete = models.CASCADE,
@@ -163,6 +165,6 @@ class Bonus(models.Model):
 class New(models.Model):
 	title = models.TextField("Title")
 	desc = models.TextField("Description")
-	newDate = models.DateTimeField("New date")
+	newDate = models.DateField("New date")
 	def __str__(self):
 		return self.title

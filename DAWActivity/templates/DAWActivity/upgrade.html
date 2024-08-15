@@ -42,56 +42,51 @@
     </script>
     
     </head>
-    <body class="green lighten-3">
+    <body class="grey lighten-5 flow-text">
         <div class="container">
-                        <p class="flow-text">Actualizar edificio</p>
-                        <form id="upgradeForm" name="upgradeForm" action="./saveUpgrade" onsubmit="return checkBounds()" method="POST">
-                        {%csrf_token %}
-                        <div class="row">
-                                <div class="col s12">
-                                        <div class="card green">
-                                                <div class="card-content white-text">
-                                                        <table class="stripped green" border="1" cellspacing="2">
-                                                                <thead>
-                                                                        <tr>
-                                                                                <th><span class="card-title">Selecciona el edificio que mejorar</span></th>
-                                                                                <th><span class="card-title">Coste de la mejora</span></th>
-									</tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                        <tr>
-                                                                                <td><select id="building" class="browser-default" name="building">
-                                                                                		<option hidden selected>-</option>
-                                                                                                {% if 1 in upgrades%}
-                                                                                                <option>Granja (nivel {{ village.foodLevel }})</option>
-                                                                                                {%endif%}
-                                                                                   		{% if 2 in upgrades%}
-                                                                                                <option>Aserradero (nivel {{ village.woodLevel }})</option>
-                                                                                                {%endif%}
-                                                                                                {% if 3 in upgrades%}
-                                                                                                <option>Cantera (nivel {{ village.stoneLevel }})</option>
-                                                                                                {%endif%}
-                                                                                                {% if 4 in upgrades%}
-                                                                                                <option>Murallas (nivel {{ village.wallLevel }})</option>
-                                                                                                {%endif%}
-                                                                                                {% if 5 in upgrades%}
-                                                                                                <option>Almacenamiento (nivel {{ village.storageLevel }})</option>
-                                                                                                {%endif%}
-                                                                                </select></td>
-										<td><p id="cost"></p></td>
-                                                                        </tr>
-                                                                </tbody>
-                                                        </table>
-                                      		</div>
-					  </div>
-                                </div>
-                           </div>
-                                
-                        <input class="waves-effect waves-light btn-large green darken-2" type="submit" value="Enviar" name="submit" />
-                        <input type="hidden" id="selectedIndex" name="selectedIndex" value=""</input>
-                        <a class="waves-effect waves-light btn-large green darken-2" href='/DAWActivity/manager' >Atrás</a>
-                        </form>
-                        
+			<p>Actualizar edificio</p>
+			<form id="upgradeForm" name="upgradeForm" action="./saveUpgrade" onsubmit="return checkBounds()" method="POST">
+			{%csrf_token %}
+			<div class="row">
+				<table class = "col s12 card blue lighten-4" border="1" cellspacing="5">
+					<thead>
+						<tr>
+							<th class = "col s6">Selecciona el edificio que mejorar</th>
+							<th class = "col s6">Coste de la mejora</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class = "col s6"><select id="building" class="browser-default" name="building">
+								<option hidden selected>-</option>
+									{% if 1 in upgrades%}
+										<option>Granja (nivel {{ village.foodLevel }})</option>
+									{%endif%}
+									{% if 2 in upgrades%}
+										<option>Aserradero (nivel {{ village.woodLevel }})</option>
+									{%endif%}
+									{% if 3 in upgrades%}
+										<option>Cantera (nivel {{ village.stoneLevel }})</option>
+									{%endif%}
+									{% if 4 in upgrades%}
+										<option>Murallas (nivel {{ village.wallLevel }})</option>
+									{%endif%}
+									{% if 5 in upgrades%}
+										<option>Almacenamiento (nivel {{ village.storageLevel }})</option>
+									{%endif%}
+								</select>
+							</td>
+							<td class = "col s6" id ="cost"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+					
+			<input class="waves-effect waves-light btn-large blue darken-2" type="submit" value="Enviar" name="submit" />
+			<input type="hidden" id="selectedIndex" name="selectedIndex" value=""</input>
+			<a class="waves-effect waves-light btn-large blue darken-2 black-text" href='/DAWActivity/manager' >Atrás</a>
+			</form>
+			
         </div>
         <script type="text/javascript">
     	
