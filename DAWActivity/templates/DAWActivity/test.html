@@ -19,176 +19,35 @@
                         <div class="col s12">
                                 <div class="card blue lighten-2">
                                         <div class="card-content">
+                                                {% for question in questions %}
                                                 <table border="1" cellspacing="2">
                                                         <thead>
                                                                 <tr>
-                                                                        <th><span class="card-title">{{ questions.0}}</span></th>
+                                                                        <th><span class="card-title">{{ question.questionText}}</span></th>
                                                                 </tr>
                                                         </thead>
                                                         <tbody>
                                                                 <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select0">
-                                                                                        {% for option in options0 %}
-                                                                                        <option>{{ option }}</option>
+                                                                        {% if question.questionType == 0 %}
+                                                                        <td>
+                                                                                <select class="browser-default" name="{{ question.questionText }}">
+                                                                                        {% for option in questionOpts %}
+                                                                                                {% if option.questionText.questionText == question.questionText %}
+                                                                                                <option>{{ option.questionOptionText }}</option>
+                                                                                                {% endif %}
                                                                                         {% endfor %}
-                                                                                </select></td>
+                                                                                </select>
+                                                                        </td>
+                                                                        {% endif %}
+                                                                        {% if question.questionType == 1 %}
+                                                                        <td>
+                                                                                <input class="browser-default" name="{{ question.questionText }}" >
+                                                                        </td>
+                                                                        {% endif %}
                                                                 </tr>
                                                         </tbody>
                                                 </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{ questions.1}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select1">
-                                                                                        {% for option in options1 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{ questions.2}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select2">
-                                                                                        {% for option in options2 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{ questions.3}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select3">
-                                                                                        {% for option in options3 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{questions.4}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select4">
-                                                                                        {% for option in options4 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{questions.5}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select5">
-                                                                                        {% for option in options5 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{questions.6}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select6">
-                                                                                        {% for option in options6 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{questions.7}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select7">
-                                                                                        {% for option in options7 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{questions.8}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select8">
-                                                                                        {% for option in options8 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{questions.9}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
-                                                                        <td><select class="browser-default"
-                                                                                        name="select9">
-                                                                                        {% for option in options9 %}
-                                                                                        <option>{{ option }}</option>
-                                                                                        {% endfor %}
-                                                                                </select></td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
+                                                {% endfor %}
                                         </div>
                                 </div>
                         </div>

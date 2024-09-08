@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as loginAuth, logout as logoutAuth
-from DAWActivity.models import Test,Question,Village,Student,New
-from datetime import date
+from DAWActivity.models import Test,Question, Option,Village,Student,New
 from django.contrib.auth.models import User as User
 
 from DAWActivity.views import utilityFunctions
@@ -11,7 +10,7 @@ def rules(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		activities = utilityFunctions.getActivities(village.villageName)
 		return render(request,'DAWActivity/rules.html',{'village':village,'activities':activities})
 
@@ -32,10 +31,10 @@ def index(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		if Student.objects.filter(user_id=request.user.id)[0].subject == 3: #admin
+		if Student.objects.get(user_id=request.user.id).subject == 3: #admin
 			tests = Test.objects.all()
 		else:
-			tests = Test.objects.filter(subject = Student.objects.filter(user_id=request.user.id)[0].subject)
+			tests = Test.objects.filter(subject = Student.objects.get(user_id=request.user.id).subject)
 		news = New.objects.all().order_by("-newDate")	
 		return render(request,'DAWActivity/index.html',{'tests':tests,'news':news})
 
@@ -57,24 +56,21 @@ def test(request,testN):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		t = Test.objects.filter(testName=testN)[0]
-		questions = Question.objects.filter(testName=t)
-		qs = []
-		opts = []
-		for x in range(10):
-			qs.append(questions[x].questionText)
-			opts.append([])
-			opts[x].append(questions[x].questionOption1)
-			opts[x].append(questions[x].questionOption2)
-			opts[x].append(questions[x].questionOption3)
-			opts[x].append(questions[x].questionOption4)
-		return render(request,'DAWActivity/test.html',{'test':testN,'questions':qs,'options0':opts[0],'options1':opts[1],'options2':opts[2],'options3':opts[3],'options4':opts[4],'options5':opts[5],'options6':opts[6],'options7':opts[7],'options8':opts[8],'options9':opts[9]})
+		t = Test.objects.get(testName=testN)
+		questions = list(Question.objects.filter(testName=t))
+		questionOpts = []
+		for question in questions:
+			if question.questionType == 0:
+				questionOpts.extend(Option.objects.filter(questionText = question.questionText))
+		print(questions)
+		print(questionOpts)
+		return render(request,'DAWActivity/test.html',{'questions':questions,'questionOpts':questionOpts})
 
 def manager(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		utilityFunctions.updateVillage(village.villageName)
 		activities = utilityFunctions.getActivities(village.villageName)
 		return render(request,'DAWActivity/manager.html',{'village':village,'activities':activities})

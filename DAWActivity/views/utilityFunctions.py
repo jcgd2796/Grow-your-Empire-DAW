@@ -8,7 +8,7 @@ def getActivities(user):
     return Activity.objects.filter(owner=user,activityDate__range=[endDate,startDate]).order_by("-activityDate")
 
 def updateVillage(name):
-    village = Village.objects.filter(villageName= name)[0]
+    village = Village.objects.get(villageName= name)
     village.lastLogin=date.today()
     village.disabled=False
     village.save()

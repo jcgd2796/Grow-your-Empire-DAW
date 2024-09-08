@@ -8,9 +8,9 @@ def saveAttack(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		defendant = Village.objects.filter(villageName=request.POST['objective'])[0]
+		defendant = Village.objects.get(villageName=request.POST['objective'])
 		soldiers = request.POST['units']
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		if int(soldiers) > village.soldiers:
 			activities = utilityFunctions.getActivities(village.villageName)
 			#not enough soldiers
@@ -30,7 +30,7 @@ def trade(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		villages = Village.objects.exclude(owner=request.user)
 		return render(request,'DAWActivity/trade.html',{'village':village,'villages':villages})
 
@@ -38,7 +38,7 @@ def attack(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		villages = Village.objects.exclude(owner=request.user)
 		return render(request,'DAWActivity/attack.html',{'villages':villages,'village':village})
 
@@ -46,7 +46,7 @@ def upgrade(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		upgrades = Upgrade.objects.filter(village = village,completed = 0)
 		available = [1,2,3,4,5]
 		if village.foodLevel == 10:
@@ -70,15 +70,15 @@ def train(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		return render(request,'DAWActivity/training.html',{'village':village})
 
 def saveTrade(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		seller = Village.objects.filter(owner=request.user)[0]
-		buyer = Village.objects.filter(villageName = request.POST['target'])[0]
+		seller = Village.objects.get(owner=request.user)
+		buyer = Village.objects.get(villageName = request.POST['target'])
 		wantedRes = [request.POST['wantedWood'],request.POST['wantedStone'],request.POST['wantedFood']]
 		offeredRes = [request.POST['offeredWood'],request.POST['offeredStone'],request.POST['offeredFood']]
 		if int(offeredRes[0])>seller.storedWood or int(offeredRes[1]) > seller.storedStone or int(offeredRes[2]) > seller.storedFood:
@@ -103,7 +103,7 @@ def saveUpgrade(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		building = int(request.POST['selectedIndex'])
 		activities = utilityFunctions.getActivities(village.villageName)
 		if building == 1: #food
@@ -166,7 +166,7 @@ def saveTraining(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		soldiers = int(request.POST['amount'])
 		if village.storedFood < int(soldiers)*2:
 			activities = utilityFunctions.getActivities(village.villageName)
@@ -186,7 +186,7 @@ def manageTrade(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		offersOwned = TradeOffer.objects.filter(source=village,accepted=False)
 		offersReceived = TradeOffer.objects.filter(destination=village,accepted=False)
 		for offer in offersOwned:
@@ -199,7 +199,7 @@ def cancelOffer(request,offerHash):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		offersOwned = TradeOffer.objects.filter(source=village,accepted=False)
 		for offer in offersOwned:
 			if str(hash(str(offer.id))) == offerHash:
@@ -221,7 +221,7 @@ def acceptOffer(request,offerHash):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		offersReceived = TradeOffer.objects.filter(destination=village,accepted=False)
 		for offer in offersReceived:
 			if str(hash(str(offer.id))) == offerHash:
@@ -256,7 +256,7 @@ def rejectOffer(request,offerHash):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.filter(owner=request.user)[0]
+		village = Village.objects.get(owner=request.user)
 		offersReceived = TradeOffer.objects.filter(destination=village,accepted=False)
 		for offer in offersReceived:
 			if str(hash(str(offer.id))) == offerHash:

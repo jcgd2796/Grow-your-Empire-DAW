@@ -16,28 +16,24 @@ class Test (models.Model):
 	def __str__(self):
 		return self.testName+'-'+str(self.subject)
 
-QUESTION_OPTIONS = (
-	('a','a'),
-	('b', 'b'),
-	('c','c'),
-	('d','d'),
-)
-
 class Question(models.Model):
 	questionText =  models.TextField("Question", primary_key=True)
-	questionOption1 = models.TextField("Option 1")
-	questionOption2 = models.TextField("Option 2")
-	questionOption3 = models.TextField("Option 3")
-	questionOption4 = models.TextField("Option 4")
-	correctOption = models.CharField("Correct option",max_length=1,choices=QUESTION_OPTIONS,default="a")
+	expectedText = models.TextField("Expected text")
+	questionType = models.IntegerField("Type") # 0 = options, 1 = text
 	testName = models.ForeignKey(
 		Test,
 		on_delete = models.CASCADE,
 	)
-
 	def __str__(self):
 		return self.questionText
-
+	
+class Option(models.Model):
+	questionOptionText = models.TextField("Option 1", primary_key=True)
+	questionText = models.ForeignKey(
+		Question,
+		on_delete = models.CASCADE,
+	)
+	correctOption = models.BooleanField("Correct")
 
 class TestResolution(models.Model):
 	testName = models.ForeignKey(
