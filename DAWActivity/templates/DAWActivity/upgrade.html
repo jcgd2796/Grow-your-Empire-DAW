@@ -13,30 +13,30 @@
 		const building = document.getElementById("building");
 		const index = building.selectedIndex;
 		if(index === 0){return false;}
-                if (index === 1 && (parseInt({{village.woodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.woodLevel}}*5) > parseInt({{village.storedStone}}))){
-			alert("Recursos insuficientes");
-			return false;                        
-                }else{
-		        if (index === 2 && (parseInt({{village.stoneLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.stoneLevel}}*5) > parseInt({{village.storedStone}}))){
+            if (index === 1 && (parseInt({{village.foodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.foodLevel}}*3) > parseInt({{village.storedStone}}))){
+				alert("Recursos insuficientes");
+				return false;                        
+			}else{
+		        if (index === 2 && (parseInt({{village.woodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.woodLevel}}*3) > parseInt({{village.storedStone}}))){
 		        	alert("Recursos insuficientes");
 		                return false;
-			}else{
-				if(index === 3 && (parseInt({{village.foodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.foodLevel}}*5) > parseInt({{village.storedStone}}))){
-			       		alert("Recursos insuficientes");
-				        return false;
 				}else{
-					if(index === 4 && (parseInt({{village.wallLevel}}*5) > parseInt({{village.storedWood}}) || parseInt({{village.wallLevel}}*10) > parseInt({{village.storedStone}}))){
-						alert("Recursos insuficientes");
-						return false;
-					}else{
-						if(parseInt({{village.storageLevel}}*5) > parseInt({{village.storedWood}}) || parseInt({{village.storageLevel}}*2) > parseInt({{village.storedStone}})){
+					if(index === 3 && (parseInt({{village.stoneLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.stoneLevel}}*3) > parseInt({{village.storedStone}}))){
 							alert("Recursos insuficientes");
 							return false;
+					}else{
+						if(index === 4 && (parseInt({{village.wallLevel}}*5) > parseInt({{village.storedWood}}) || parseInt({{village.wallLevel}}*10) > parseInt({{village.storedStone}}))){
+							alert("Recursos insuficientes");
+							return false;
+						}else{
+							if(parseInt({{village.storageLevel}}*3) > parseInt({{village.storedWood}}) || parseInt({{village.storageLevel}}*2) > parseInt({{village.storedStone}})){
+								alert("Recursos insuficientes");
+								return false;
+							}
 						}
 					}
 				}
 			}
-		}
 		return true;
 	}
     </script>

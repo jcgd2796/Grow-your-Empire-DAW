@@ -28,7 +28,7 @@
                                                         </thead>
                                                         <tbody>
                                                                 <tr>
-                                                                        {% if question.questionType == 0 %}
+                                                                        {% if question.questionType == "Opciones" %}
                                                                         <td>
                                                                                 <select class="browser-default" name="{{ question.questionText }}">
                                                                                         {% for option in questionOpts %}
@@ -39,7 +39,7 @@
                                                                                 </select>
                                                                         </td>
                                                                         {% endif %}
-                                                                        {% if question.questionType == 1 %}
+                                                                        {% if question.questionType == "Relleno" %}
                                                                         <td>
                                                                                 <input class="browser-default" name="{{ question.questionText }}" >
                                                                         </td>

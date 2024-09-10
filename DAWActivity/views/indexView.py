@@ -1,18 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
+from django.utils import timezone
 from django.contrib.auth import login as loginAuth, logout as logoutAuth
 from DAWActivity.models import Test,Question, Option,Village,Student,New
 from django.contrib.auth.models import User as User
 
-from DAWActivity.views import utilityFunctions
+from DAWActivity.database import utilityFunctions
 
 def rules(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.get(owner=request.user)
-		activities = utilityFunctions.getActivities(village.villageName)
-		return render(request,'DAWActivity/rules.html',{'village':village,'activities':activities})
+		return render(request,'DAWActivity/rules.html')
 
 def ranking(request):
 	if not request.user.is_authenticated:
@@ -31,11 +30,11 @@ def index(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		if Student.objects.get(user_id=request.user.id).subject == 3: #admin
+		if request.user.is_superuser:
 			tests = Test.objects.all()
 		else:
-			tests = Test.objects.filter(subject = Student.objects.get(user_id=request.user.id).subject)
-		news = New.objects.all().order_by("-newDate")	
+			tests = Test.objects.filter(subject__in=list(request.user.student.subject.all()), date__lt = timezone.now())
+		news = New.objects.all().order_by("-registeredDateTime")	
 		return render(request,'DAWActivity/index.html',{'tests':tests,'news':news})
 
 def login(request):
@@ -60,26 +59,24 @@ def test(request,testN):
 		questions = list(Question.objects.filter(testName=t))
 		questionOpts = []
 		for question in questions:
-			if question.questionType == 0:
-				questionOpts.extend(Option.objects.filter(questionText = question.questionText))
-		print(questions)
-		print(questionOpts)
+			if question.questionType == "Opciones":
+				questionOpts.extend(Option.objects.filter(questionText = question))
 		return render(request,'DAWActivity/test.html',{'questions':questions,'questionOpts':questionOpts})
 
 def manager(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		village = Village.objects.get(owner=request.user)
+		village = Village.objects.get(owner = request.user.student)
 		utilityFunctions.updateVillage(village.villageName)
-		activities = utilityFunctions.getActivities(village.villageName)
+		activities = utilityFunctions.getActivities(village)
 		return render(request,'DAWActivity/manager.html',{'village':village,'activities':activities})
 
 def news(request):
 	if not request.user.is_authenticated:
 		return render(request,'DAWActivity/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
-		news = New.objects.all().order_by("-newDate")
+		news = New.objects.all().order_by("-registeredDateTime")
 		return render(request,'DAWActivity/news.html',{'news':news})
 
 def new (request,newTitle):

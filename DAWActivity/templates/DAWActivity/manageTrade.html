@@ -18,7 +18,7 @@
                                                 <tbody>
                                                         {%for offer in offersOwned%}
                                                         <tr>
-                                                                <td>Has ofrecido a {{offer.destination}} {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
+                                                                <td>Has ofrecido a {{offer.destination.villageName}} {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
                                                                 <td><a class="waves-effect waves-light btn-large blue darken-2" href='/DAWActivity/manager/cancelOffer{{offer.id}}' >Cancelar</a></td>
                                                         </tr>
                                                         {%endfor%}
@@ -29,7 +29,7 @@
                                                 <tbody>
                                                         {%for offer in offersReceived%}
                                                         <tr>
-                                                                <td>{{offer.source}} te ofrece {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
+                                                                <td>{{offer.source.villageName}} te ofrece {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
                                                                 <td><a class="waves-effect waves-light btn-large blue darken-2" href='/DAWActivity/manager/acceptOffer{{offer.id}}' >Aceptar</a></td>
                                                                 <td><a class="waves-effect waves-light btn-large blue darken-2" href='/DAWActivity/manager/RejectOffer{{offer.id}}' >Rechazar</a></td>
                                                         </tr>

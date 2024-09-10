@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Test, Option, Question, TestResolution, Village, Activity, Attack, TradeOffer,New, Upgrade, Training, Bonus,Student
+from nested_admin import NestedTabularInline, NestedModelAdmin
+from django.contrib.auth.models import User as User
+from .models import Test, Subject, Option, Question, TestResolution, Village, Activity, Attack, TradeOffer,New, Upgrade, Training, Bonus,Student
 # Register your models here.
-admin.site.register(Test)
+
 admin.site.register(TestResolution)
 admin.site.register(Village)
 admin.site.register(Activity)
@@ -10,7 +12,32 @@ admin.site.register(TradeOffer)
 admin.site.register(Upgrade)
 admin.site.register(Training)
 admin.site.register(Bonus)
-admin.site.register(Student)
 admin.site.register(New)
-admin.site.register(Question)
-admin.site.register(Option)
+admin.site.register(Subject)
+
+class OptionInline(NestedTabularInline):
+    model = Option
+
+class QuestionInline(NestedTabularInline):
+    model = Question
+    inlines = [
+        OptionInline
+    ]
+
+@admin.register(Test)
+class TestAdmin(NestedModelAdmin):
+    inlines = [
+        QuestionInline,
+    ]
+
+
+class VillageInline(admin.StackedInline):
+    model = Village
+
+@admin.register(Student)
+class TestAdmin(admin.ModelAdmin):
+    inlines = [
+        VillageInline,
+    ]
+
+
