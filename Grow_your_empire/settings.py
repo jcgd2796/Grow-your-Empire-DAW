@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'DAWActivity.apps.DawactivityConfig',
+    'GrowYourEmpire.apps.GrowyourempireConfig',
     'django_crontab',
     'nested_admin',
     'django.contrib.admin',
@@ -56,7 +56,7 @@ CRONJOBS = [
     #to enable, run "python manage.py crontab add"
     #to show, run "python manage.py crontab show"
     #to delete, run "python manage.py crontab delete"
-    ('0 10,22 * * *', 'DAWActivity.actions.main')
+    ('0 10,22 * * *', 'GrowYourEmpire.actions.main')
 ]
 
 ROOT_URLCONF = 'Grow_your_empire.urls'
@@ -140,6 +140,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuration for SSL
-#SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = False
 #SESSION_COOKIE_SECURE = False
 #CSRF_COOKIE_SECURE = False

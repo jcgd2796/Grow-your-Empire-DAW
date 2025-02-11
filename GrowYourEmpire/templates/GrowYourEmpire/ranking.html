@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Ranking</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body class="grey lighten-5 flow-text">
+	<div class="right-align">
+		<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesion</a>
+		<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire'>Volver a la página principal</a>
+		<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules'>Reglas</a>
+	</div>
+	<div class="container">
+		<div class="row">
+			<p>Primeras 5 aldeas</p>
+			<table class="col s8 card grey lighten-3" border="1" cellspacing="2">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Puntuación</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%for vKey,vValue in ranking.items%}
+					<tr>
+						<th>{{vKey}}</th>
+						<th>{{vValue}}</th>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>

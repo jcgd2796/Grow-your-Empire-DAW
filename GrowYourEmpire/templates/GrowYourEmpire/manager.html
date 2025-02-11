@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Aldea {{village.villageName}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </head>
+    <body class="grey lighten-5 flow-text">
+    	
+	<div class="right-align">
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesión</a>
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire' >Volver a la página principal</a>
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules' >Reglas</a>
+        <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/manager/gods' >Dioses</a>
+        <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/events' >Eventos</a>
+	</div>
+
+        <div class="container">
+        	<div class="row">
+                	<div class="col s12">
+                                <p>{{text}}</p>
+                                <table class="card blue lighten-4" border="1" cellspacing="2">
+                                        <tbody>
+                                                <tr>
+                                                        <td>Nombre</td>
+                                                        <td>{{village.villageName}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Dios</td>
+                                                        <td>{%if village.god == None %} <a class="waves-effect waves-light btn-large blue darken-2" href="/GrowYourEmpire/manager/gods">Elegir dios</a> {% else %} {{village.god.name}} {% endif %}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Alimento almacenado</td>
+
+
+                                                        <td>{{village.storedFood}}</td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/trade' >Comerciar</a> </td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/manageOffers' >Ver ofertas</a> </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Madera almacenada</td>
+                                                        <td>{{village.storedWood}}</td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/trade' >Comerciar</a> </td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/manageOffers' >Ver ofertas</a> </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Piedra almacenada</td>
+                                                        <td>{{village.storedStone}}</td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/trade' >Comerciar</a> </td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/manageOffers' >Ver ofertas</a> </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Alimento diario obtenido</td>
+                                                        <td>{{village.dailyFood}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Madera diaria obtenida</td>
+                                                        <td>{{village.dailyWood}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Piedra diaria obtenida</td>
+                                                        <td>{{village.dailyStone}}</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Nivel de recogida de alimentos</td>
+                                                        <td>{{village.foodLevel}}</td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Nivel de recogida de madera</td>
+                                                        <td>{{village.woodLevel}}</td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Nivel de recogida de piedra</td>
+                                                        <td>{{village.stoneLevel}}</td>
+                                                        <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Nivel de las murallas</td>
+                                                        <td>{{village.wallLevel}}</td>
+                                                        <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
+                                                </tr> 
+                                                <tr>
+                                                        <td>Nivel del almacenamiento</td>
+                                                        <td>{{village.storageLevel}}</td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Soldados</td>
+                                                        <td>{{village.soldiers}}</td>
+                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/attack' >Atacar</a> </td>
+                                                        <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/train' >Entrenar soldados</a> </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                                <table class="card blue lighten-3"" border="1" cellspacing="2">
+                                        <thead>
+                                                <tr>
+                                                        <th><span>Actividades recientes</span></th>
+                                                </tr>
+                                        </thead>
+                                        <tbody>
+                                                        {%for activity in activities%}
+                                                        <tr>
+                                                                <th>[{{activity.activityDate}}] {{activity.activityText}} </th>
+                                                        </tr>
+                                                        {%endfor%}
+                                        </tbody>
+                                </table>
+                        </div>
+                </div>
+        </div>
+    </body>
+</html>

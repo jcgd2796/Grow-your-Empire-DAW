@@ -19,6 +19,7 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("DAWActivity/", include("DAWActivity.urls")),
+    path("GrowYourEmpire/", include("GrowYourEmpire.urls")),
+    path("", include("GrowYourEmpire.urls")),
     path('_nested_admin/', include('nested_admin.urls')),
 ]

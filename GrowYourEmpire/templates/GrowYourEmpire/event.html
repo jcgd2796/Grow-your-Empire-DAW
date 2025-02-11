@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Eventos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        function checkBounds(){
+            if(document.getElementById("foodDonated") != null && (parseInt(document.eventForm.foodDonated.value) < 0 || parseInt(document.eventForm.foodDonated.value) > parseInt({{event.foodRequired}})) || parseInt(document.eventForm.foodDonated.value) > parseInt({{village.storedFood}})){
+                alert("Has seleccionado una cantidad de comida no válida, estás ofreciendo más comida de la que se necesita, o no tienes comida suficiente.");
+                return false;
+            }
+            if(document.getElementById("woodDonated") != null && (parseInt(document.eventForm.woodDonated.value) < 0 || parseInt(document.eventForm.woodDonated.value) > parseInt({{event.woodRequired}})) || parseInt(document.eventForm.woodDonated.value) > parseInt({{village.storedWood}})){
+                alert("Has seleccionado una cantidad de madera no válida, estás ofreciendo más madera de la que se necesita, o no tienes madera suficiente.");
+                return false;
+            }
+            if(document.getElementById("stoneDonated") != null && (parseInt(document.eventForm.stoneDonated.value) < 0 || parseInt(document.eventForm.stoneDonated.value) > parseInt({{event.stoneRequired}})) || parseInt(document.eventForm.stoneDonated.value) > parseInt({{village.storedStone}})){
+                alert("Has seleccionado una cantidad de piedra no válida, estás ofreciendo más piedra de la que se necesita, o no tienes piedra suficiente.");
+                return false;
+            }
+            if(document.getElementById("soldiersDonated") != null && (parseInt(document.eventForm.soldiersDonated.value) < 0 || parseInt(document.eventForm.soldiersDonated.value) > parseInt({{event.soldiersRequired}})) || parseInt(document.eventForm.soldiersDonated.value) > parseInt({{village.storedSoldiers}})){
+                alert("Has seleccionado una cantidad de soldados no válida, estás ofreciendo más soldados de la que se necesita, o no tienes soldados suficientes.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</head>
+    <body class="grey lighten-5 flow-text">
+    	
+	<div class="right-align">
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesion</a>
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire' >Volver a la página principal</a>
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules' >Reglas</a>
+	</div>
+        <div class="container">
+            <table class="col s8 card grey lighten-3" border="1" cellspacing="2">
+                <thead>
+                    <tr>
+                        <th>{{event.title}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>{{event.desc}}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="./donate"name="eventForm" onsubmit="return checkBounds()" method="POST">
+                {% csrf_token %} 
+                <table class="col s8 card grey lighten-3" border="1" cellspacing="2">
+                    <thead>
+                        <tr>
+                            <th>Donar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {%if event.foodRequired > 0%}
+                                <th>Comida: (Restante: {{event.foodRequired}})</th>
+                                <th><input type="number" min="0" max="{{event.foodRequired}}" name="foodDonated" id="foodDonated" value="0"></th>
+                            {%endif%}
+                            {%if event.woodRequired > 0%}
+                                <th>Madera: (Restante: {{event.woodRequired}})</th>
+                                <th><input type="number" min="0" max="{{event.woodRequired}}" name="woodDonated" id="woodDonated" value="0"></th>
+                            {%endif%}
+                            {%if event.stoneRequired > 0%}
+                                <th>Piedra: (Restante: {{event.stoneRequired}})</th>
+                                <th><input type="number" min="0" max="{{event.stoneRequired}}" name="stoneDonated" id="stoneDonated" value="0"></th>
+                            {%endif%}
+                            {%if event.soldiersRequired > 0%}
+                                <th>Soldados: (Restante: {{event.soldiersRequired}})</th>
+                                <th><input type="number" min="0" max="{{event.soldiersRequired}}" name="soldiersDonated" id="soldiersDonated" value="0"></th>
+                            {%endif%}
+                        </tr>
+                    </tbody>
+                </table>
+                {%if event.foodRequired > 0 or event.woodRequired > 0 or event.stoneRequired > 0 or event.soldiersRequired > 0 %}<button class="waves-effect waves-light btn-small blue darken-1" type="submit">Donar</button>{%endif%}
+            </form>
+            <table class="col s8 card grey lighten-3" border="1" cellspacing="2">
+                <thead>
+                    <tr>
+                        <th>Donaciones recientes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for donation in donations%}
+                        <tr>
+                            <td>{{donation.owner.villageName}}</td>
+                            <td>{%if donation.donatedFood > 0%}{{donation.donatedFood}} comida {%endif%}
+                                {%if donation.donatedWood > 0%}{{donation.donatedWood}} madera {%endif%}
+                                {%if donation.donatedStone > 0%}{{donation.donatedStone}} piedra {%endif%}
+                                {%if donation.donatedSoldiers > 0%}{{donation.donatedSoldiers}} soldados{%endif%}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

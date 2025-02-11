@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Manage trade</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </head>
+    <body class="grey lighten-5 flow-text">
+        <div class="container"> 
+                        <div class="row">
+                                <div class=" card blue lighten-4 col s12">
+                                        <p>Peticiones de comercio pendientes</p>
+                                        <table border="1" cellspacing="2">
+                                                <tbody>
+                                                        {%for offer in offersOwned%}
+                                                        <tr>
+                                                                <td>Has ofrecido a {{offer.destination.villageName}} {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
+                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/cancelOffer{{offer.id}}' >Cancelar</a></td>
+                                                        </tr>
+                                                        {%endfor%}
+                                                </tbody>
+                                        </table>
+                                        <p>Peticiones de comercio recibidas</p>
+                                        <table border="1" cellspacing="2">
+                                                <tbody>
+                                                        {%for offer in offersReceived%}
+                                                        <tr>
+                                                                <td>{{offer.source.villageName}} te ofrece {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
+                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/acceptOffer{{offer.id}}' >Aceptar</a></td>
+                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/RejectOffer{{offer.id}}' >Rechazar</a></td>
+                                                        </tr>
+                                                        {%endfor%}
+                                                </tbody>
+                                        </table>
+                                </div>
+                           </div>
+                        <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager' >Atrás</a>
+                        </form>
+                        
+        </div>
+    </body>
+</html>
+
+

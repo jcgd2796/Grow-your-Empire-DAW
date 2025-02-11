@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Dioses mayores</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        function checkBounds(){
+            if( 1000 > parseInt({{village.storedWood}})
+                || 1000 > parseInt({{village.storedStone}})
+                || 1000 > parseInt({{village.storedFood}})){
+                alert("No tienes recursos suficientes.");
+                return false;
+            }else{
+                return true;
+            }
+        }
+        </script>	    
+
+</head>
+    <body class="grey lighten-5 flow-text">
+    	
+	<div class="right-align">
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesion</a>
+    <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/manager' >Volver a la gestión de la aldea</a>
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire' >Volver a la página principal</a>
+	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules' >Reglas</a>
+	</div>
+        <div class="container row col s12" >
+            <p>A continuación se muestran los dioses disponibles para elegir. Cada dios tiene un bonus que se aplicará a tu aldea una vez elegido.</p>
+            <p>Para elegir un dios, deberás construir un altar. Este altar cuesta 1000 de piedra, 1000 de madera y 1000 de alimento, y solo se puede construir uno por aldea.</p>
+            <p>Si deseas cambiar de dios, deberás destruir el altar actual y construir uno nuevo, lo que supondrá un gasto de recursos.</p>
+        </div>
+        <div class="container">
+                <table class="col s8 card grey lighten-3" border="1" cellspacing="2">
+                    {% for god in gods %}
+                    <thead>
+                        <tr>
+                            <th>{{god.name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{god.desc}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{god.bonus}}</td>
+                        </tr>
+                        <tr>
+                            <th><a class="waves-effect waves-light btn-small blue darken-1" href="/GrowYourEmpire/manager/saveGod{{god.name}}" onclick="return checkBounds()">Elegir a {{god.name}}</a></th>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+        </div>
+    </body>
+</html>
