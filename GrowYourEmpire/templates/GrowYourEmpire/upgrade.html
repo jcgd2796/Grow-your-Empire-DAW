@@ -2,125 +2,171 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Upgrade</title>
+        <title>Mejoras - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript">
-	function checkBounds(){
-		const building = document.getElementById("building");
-		const index = building.selectedIndex;
-		if(index === 0){return false;}
-            if (index === 1 && (parseInt({{village.foodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.foodLevel}}*3) > parseInt({{village.storedStone}}))){
-				alert("Recursos insuficientes");
-				return false;                        
-			}else{
-		        if (index === 2 && (parseInt({{village.woodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.woodLevel}}*3) > parseInt({{village.storedStone}}))){
-		        	alert("Recursos insuficientes");
-		                return false;
-				}else{
-					if(index === 3 && (parseInt({{village.stoneLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.stoneLevel}}*3) > parseInt({{village.storedStone}}))){
-							alert("Recursos insuficientes");
-							return false;
-					}else{
-						if(index === 4 && (parseInt({{village.wallLevel}}*5) > parseInt({{village.storedWood}}) || parseInt({{village.wallLevel}}*10) > parseInt({{village.storedStone}}))){
-							alert("Recursos insuficientes");
-							return false;
-						}else{
-							if(parseInt({{village.storageLevel}}*3) > parseInt({{village.storedWood}}) || parseInt({{village.storageLevel}}*2) > parseInt({{village.storedStone}})){
-								alert("Recursos insuficientes");
-								return false;
-							}
-						}
-					}
-				}
-			}
-		return true;
-	}
-    </script>
-    
-    </head>
-    <body class="grey lighten-5 flow-text">
-        <div class="container">
-			<p>Actualizar edificio</p>
-			<form id="upgradeForm" name="upgradeForm" action="./saveUpgrade" onsubmit="return checkBounds()" method="POST">
-			{%csrf_token %}
-			<div class="row">
-				<table class = "col s12 card blue lighten-4" border="1" cellspacing="5">
-					<thead>
-						<tr>
-							<th class = "col s6">Selecciona el edificio que mejorar</th>
-							<th class = "col s6">Coste de la mejora</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class = "col s6"><select id="building" class="browser-default" name="building">
-								<option hidden selected>-</option>
-									{% if 1 in upgrades%}
-										<option>Granja (nivel {{ village.foodLevel }})</option>
-									{%endif%}
-									{% if 2 in upgrades%}
-										<option>Aserradero (nivel {{ village.woodLevel }})</option>
-									{%endif%}
-									{% if 3 in upgrades%}
-										<option>Cantera (nivel {{ village.stoneLevel }})</option>
-									{%endif%}
-									{% if 4 in upgrades%}
-										<option>Murallas (nivel {{ village.wallLevel }})</option>
-									{%endif%}
-									{% if 5 in upgrades%}
-										<option>Almacenamiento (nivel {{ village.storageLevel }})</option>
-									{%endif%}
-								</select>
-							</td>
-							<td class = "col s6" id ="cost"></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-					
-			<input class="waves-effect waves-light btn-large blue darken-2" type="submit" value="Enviar" name="submit" />
-			<input type="hidden" id="selectedIndex" name="selectedIndex" value=""</input>
-			<a class="waves-effect waves-light btn-large blue darken-2 black-text" href='/GrowYourEmpire/manager' >Atrás</a>
-			</form>
-			
-        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .upgrade-card { margin: 20px 0; }
+            .cost-display { font-size: 1.1rem; color: #1565c0; }
+            .building-select { margin: 20px 0; }
+            .resource-icon { margin-right: 5px; }
+        </style>
+
         <script type="text/javascript">
-    	
-	var costText = document.getElementById("cost");
-	var building = document.getElementById("building");
-	var ind = document.getElementById("selectedIndex");
-	building.addEventListener("change", () => {
-		const index = building.value;
-		if (index.includes("Granja")){
-				costText.textContent = ({{village.foodLevel}}*7)+" unidades de madera,\n"+({{village.foodLevel}}*3)+" unidades de piedra.";;
-				ind.value = 1;
-		}else{
-			if (index.includes("Aserradero")){
-				costText.textContent = ({{village.woodLevel}}*7)+" unidades de madera,\n"+({{village.woodLevel}}*3)+" unidades de piedra.";
-				ind.value = 2;
-			}else{
-				if(index.includes("Cantera")){
-					ind.value = 3;
-					costText.textContent = ({{village.stoneLevel}}*7)+" unidades de madera,\n"+({{village.stoneLevel}}*3)+" unidades de piedra.";
-				}else{
-					if(index.includes("Muralla")){
-						costText.textContent = ({{village.wallLevel}}*5)+" unidades de madera,\n"+({{village.wallLevel}}*10)+" unidades de piedra.";
-						ind.value = 4;
-					}else{
-						if(index.includes("Almacenamiento")){
-							ind.value = 5;
-							costText.textContent = ({{village.storageLevel}}*3)+" unidades de madera,\n"+({{village.storageLevel}}*2)+" unidades de piedra.";
-						}
-					}
-				}
-			}
-		}	
-	})		
-    	</script>	
+            function checkBounds(){
+                const building = document.getElementById("building");
+                const index = building.selectedIndex;
+                if(index === 0){
+                    M.toast({html: 'Selecciona un edificio para mejorar', classes: 'red'});
+                    return false;
+                }
+                
+                let insufficientResources = false;
+                if (index === 1 && (parseInt({{village.foodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.foodLevel}}*3) > parseInt({{village.storedStone}}))) {
+                    insufficientResources = true;
+                } else if (index === 2 && (parseInt({{village.woodLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.woodLevel}}*3) > parseInt({{village.storedStone}}))) {
+                    insufficientResources = true;
+                } else if (index === 3 && (parseInt({{village.stoneLevel}}*7) > parseInt({{village.storedWood}}) || parseInt({{village.stoneLevel}}*3) > parseInt({{village.storedStone}}))) {
+                    insufficientResources = true;
+                } else if (index === 4 && (parseInt({{village.wallLevel}}*5) > parseInt({{village.storedWood}}) || parseInt({{village.wallLevel}}*10) > parseInt({{village.storedStone}}))) {
+                    insufficientResources = true;
+                } else if (parseInt({{village.storageLevel}}*3) > parseInt({{village.storedWood}}) || parseInt({{village.storageLevel}}*2) > parseInt({{village.storedStone}})) {
+                    insufficientResources = true;
+                }
+
+                if (insufficientResources) {
+                    M.toast({html: 'No tienes suficientes recursos para esta mejora', classes: 'red'});
+                    return false;
+                }
+                return true;
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var costText = document.getElementById("cost");
+                var building = document.getElementById("building");
+                var ind = document.getElementById("selectedIndex");
+                
+                building.addEventListener("change", () => {
+                    const index = building.value;
+                    let woodCost = 0;
+                    let stoneCost = 0;
+
+                    if (index.includes("Granja")) {
+                        woodCost = {{village.foodLevel}}*7;
+                        stoneCost = {{village.foodLevel}}*3;
+                        ind.value = 1;
+                    } else if (index.includes("Aserradero")) {
+                        woodCost = {{village.woodLevel}}*7;
+                        stoneCost = {{village.woodLevel}}*3;
+                        ind.value = 2;
+                    } else if (index.includes("Cantera")) {
+                        woodCost = {{village.stoneLevel}}*7;
+                        stoneCost = {{village.stoneLevel}}*3;
+                        ind.value = 3;
+                    } else if (index.includes("Muralla")) {
+                        woodCost = {{village.wallLevel}}*5;
+                        stoneCost = {{village.wallLevel}}*10;
+                        ind.value = 4;
+                    } else if (index.includes("Almacenamiento")) {
+                        woodCost = {{village.storageLevel}}*3;
+                        stoneCost = {{village.storageLevel}}*2;
+                        ind.value = 5;
+                    }
+
+                    if (woodCost > 0 || stoneCost > 0) {
+                        costText.innerHTML = `
+                            <div class="cost-item">
+                                <i class="material-icons tiny resource-icon">park</i>${woodCost} madera
+                            </div>
+                            <div class="cost-item">
+                                <i class="material-icons tiny resource-icon">landscape</i>${stoneCost} piedra
+                            </div>`;
+                    } else {
+                        costText.textContent = "-";
+                    }
+                });
+
+                // Initialize select
+                var selects = document.querySelectorAll('select');
+                M.FormSelect.init(selects);
+            });
+        </script>
+    </head>
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/manager" class="tooltipped" data-position="bottom" data-tooltip="Volver a la aldea">
+                        <i class="material-icons left">arrow_back</i>Volver
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card upgrade-card">
+                        <div class="card-content blue lighten-4">
+                            <h4>
+                                Mejorar edificio
+                            </h4>
+                            <form id="upgradeForm" name="upgradeForm" action="./saveUpgrade" onsubmit="return checkBounds()" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col s6">
+                                        <div class="input-field building-select">
+                                            <select id="building" name="building" class="browser-default">
+                                                <option value="" disabled selected>Selecciona un edificio</option>
+                                                {% if 1 in upgrades %}
+                                                    <option>Granja (nivel {{ village.foodLevel }})</option>
+                                                {% endif %}
+                                                {% if 2 in upgrades %}
+                                                    <option>Aserradero (nivel {{ village.woodLevel }})</option>
+                                                {% endif %}
+                                                {% if 3 in upgrades %}
+                                                    <option>Cantera (nivel {{ village.stoneLevel }})</option>
+                                                {% endif %}
+                                                {% if 4 in upgrades %}
+                                                    <option>Murallas (nivel {{ village.wallLevel }})</option>
+                                                {% endif %}
+                                                {% if 5 in upgrades %}
+                                                    <option>Almacenamiento (nivel {{ village.storageLevel }})</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col s6">
+                                        <h5>Coste de la mejora</h5>
+                                        <div class="cost-display" id="cost">-</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="selectedIndex" name="selectedIndex" value="">
+                                <div class="card-action center-align">
+                                    <button class="btn waves-effect waves-light blue darken-2" type="submit" name="submit">
+                                        <i class="material-icons left">arrow_upward</i>Mejorar
+                                    </button>
+                                    <a class="btn waves-effect waves-light blue darken-2" href='/GrowYourEmpire/manager'>
+                                        <i class="material-icons left">cancel</i>Cancelar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
 

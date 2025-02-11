@@ -2,55 +2,91 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Resultados del test {{test.testName}}</title>
+        <title>Resultados - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- jQuery (needed for Materialize) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <style>
+        .nav-wrapper { padding: 0 20px; }
+        .results-card { margin: 20px 0; }
+        .score { font-size: 2rem; font-weight: bold; color: #1565c0; }
+        .answer-section { margin: 15px 0; }
+    </style>
     </head>
-    <body class="grey lighten-5 flow-text">
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+            </div>
+        </nav>
+
         <div class="container">
-			<div class="card blue lighten-2">
-				<div class="card-content">
-					<span class="card-title">Resultados del test {{test.testName}}</span>
-					<div class="card-text">
-						Puntos obtenidos: {{points}}/{{totalPoints}}
-						<br>
-						{{text}}
-						<br>
-						{{done}}	
-					</div>
-				</div>
-			</div>
-			
-			<div class = "row">
-				<div class="col s6">
-					<div class="card grey lighten-3">
-						<div class="card-content">
-							<p><span class="card-title">Tus elecciones</p>
-							{% for choice in choices %}
-							<div class="card-text">{{forloop.counter}} - {{choice}}</div>
-							<br>
-							{% endfor %}
-						</div>
-					</div>
-				</div>
-				<div class="col s6">
-					<div class="card grey lighten-3">
-						<div class="card-content">
-							<p><span class="card-title">Opción correcta</span></p>
-							{% for solution in solutions %}
-							<div class="card-text">{{forloop.counter}} - {{solution}}</div>
-							<br>
-							{% endfor %}
-						</div>
-					</div>
-				</div>
-			</div>
-				
-			<a class="waves-effect waves-light btn-small blue darken-1 black-text" href='/GrowYourEmpire' >Volver a la página principal</a> 	
+            <div class="card">
+                <div class="card-content blue lighten-4">
+                    <h4>
+                        <i class="material-icons left">done</i>
+                        Resultados del test {{test.testName}}
+                    </h4>
+                    <div class="center-align">
+                        <p class="score">{{points}}/{{totalPoints}} puntos</p>
+                        <p class="flow-text">{{text}}</p>
+                        <p>{{done}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s6">
+                    <div class="card">
+                        <div class="card-content blue lighten-4">
+                            <span class="card-title">
+                                <i class="material-icons left">description</i>
+                                Tus respuestas
+                            </span>
+                            <div class="collection">
+                                {% for choice in choices %}
+                                    <div class="collection-item">
+                                        <span class="badge">{{forloop.counter}}</span>
+                                        {{choice}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="card">
+                        <div class="card-content blue lighten-4">
+                            <span class="card-title">
+                                <i class="material-icons left">check_circle</i>
+                                Respuestas correctas
+                            </span>
+                            <div class="collection">
+                                {% for solution in solutions %}
+                                    <div class="collection-item">
+                                        <span class="badge">{{forloop.counter}}</span>
+                                        {{solution}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-align">
+                <a class="btn waves-effect waves-light blue darken-2" href='/GrowYourEmpire'>
+                    <i class="material-icons left">home</i>Volver al inicio
+                </a>
+            </div>
         </div>
-		<br>
     </body>
 </html>

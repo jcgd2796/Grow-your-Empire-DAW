@@ -3,60 +3,80 @@
 
 <head>
         <meta charset="utf-8" />
-        <title>{{test}}</title>
+        <title>{{test}} - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+                .nav-wrapper { padding: 0 20px; }
+                .question-card { margin: 20px 0; }
+                .question-text { font-size: 1.2rem; margin-bottom: 15px; }
+                select { display: block; margin-bottom: 20px; }
+        </style>
 </head>
 
-<body class="grey lighten-5 flow-text">
+<body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+                <div class="nav-wrapper">
+                        <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                </div>
+        </nav>
+
         <div class="container">
-                <p>{{test}}</p>
-                <form action='./correct' method="POST">
-                        {%csrf_token %}
+                <div class="row">
                         <div class="col s12">
-                                <div class="card blue lighten-2">
-                                        <div class="card-content">
-                                                {% for question in questions %}
-                                                <table border="1" cellspacing="2">
-                                                        <thead>
-                                                                <tr>
-                                                                        <th><span class="card-title">{{ question.questionText}}</span></th>
-                                                                </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                <tr>
+                                <div class="card">
+                                        <div class="card-content blue lighten-4">
+                                                <h4>
+                                                        <i class="material-icons left">quiz</i>
+                                                        {{test}}
+                                                </h4>
+                                                <form action='./correct' method="POST">
+                                                        {% csrf_token %}
+                                                        {% for question in questions %}
+                                                        <div class="card question-card">
+                                                                <div class="card-content">
+                                                                        <p class="question-text">{{ question.questionText }}</p>
                                                                         {% if question.questionType == "Opciones" %}
-                                                                        <td>
-                                                                                <select class="browser-default" name="{{ question.questionText }}">
-                                                                                        {% for option in questionOpts %}
-                                                                                                {% if option.questionText.questionText == question.questionText %}
-                                                                                                <option>{{ option.questionOptionText }}</option>
-                                                                                                {% endif %}
-                                                                                        {% endfor %}
-                                                                                </select>
-                                                                        </td>
+                                                                        <select class="browser-default" name="{{ question.questionText }}">
+                                                                                {% for option in questionOpts %}
+                                                                                        {% if option.questionText.questionText == question.questionText %}
+                                                                                        <option>{{ option.questionOptionText }}</option>
+                                                                                        {% endif %}
+                                                                                {% endfor %}
+                                                                        </select>
                                                                         {% endif %}
                                                                         {% if question.questionType == "Relleno" %}
-                                                                        <td>
-                                                                                <input class="browser-default" name="{{ question.questionText }}" >
-                                                                        </td>
+                                                                        <div class="input-field">
+                                                                                <i class="material-icons prefix">edit</i>
+                                                                                <input type="text" name="{{ question.questionText }}" class="validate">
+                                                                                <label>Tu respuesta</label>
+                                                                        </div>
                                                                         {% endif %}
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                {% endfor %}
+                                                                </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                        <div class="card-action center-align">
+                                                                <button class="btn waves-effect waves-light blue darken-2" type="submit" name="submit">
+                                                                        <i class="material-icons left">send</i>Enviar
+                                                                </button>
+                                                                <a class="btn waves-effect waves-light blue darken-2" href='/GrowYourEmpire'>
+                                                                        <i class="material-icons left">arrow_back</i>Volver
+                                                                </a>
+                                                        </div>
+                                                </form>
                                         </div>
                                 </div>
                         </div>
-                        <input class="waves-effect waves-light btn-large blue darken-1" type="submit" value="Enviar"
-                                name="submit" />
-                        <a class="waves-effect waves-light btn-large blue darken-1 black-text"
-                                href='/GrowYourEmpire'>Volver a la página principal</a>
-                </form>
-                <br>
+                </div>
         </div>
 </body>
 

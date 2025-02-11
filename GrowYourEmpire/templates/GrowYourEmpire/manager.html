@@ -4,116 +4,255 @@
         <meta charset="utf-8"/>
         <title>Aldea {{village.villageName}}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .resource-card { margin: 10px 0; }
+            .resource-icon { font-size: 2rem; margin-right: 10px; }
+            .activities-table { margin-top: 20px; }
+            .btn-floating { margin: 0 5px; }
+            .resource-value { font-size: 1.5rem; font-weight: bold; }
+            .village-header { padding: 20px; margin-bottom: 20px; }
+            .tabs .tab a { color: #5d89bb; }
+            .tabs .tab a:hover { color: #1976d2; }
+            .tabs .tab a.active { color: #1976d2; }
+            .tabs .indicator { background-color: #1976d2; }
+            .tooltip { cursor: help; }
+        </style>
     </head>
-    <body class="grey lighten-5 flow-text">
-    	
-	<div class="right-align">
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesión</a>
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire' >Volver a la página principal</a>
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules' >Reglas</a>
-        <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/manager/gods' >Dioses</a>
-        <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/events' >Eventos</a>
-	</div>
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire"><i class="material-icons left">home</i>Página Principal</a></li>
+                    <li><a href="/GrowYourEmpire/manager/gods" class="tooltipped" data-position="bottom" data-tooltip="Gestionar dioses"><i class="material-icons left">whatshot</i>Dioses</a></li>
+                    <li><a href="/GrowYourEmpire/events" class="tooltipped" data-position="bottom" data-tooltip="Ver eventos"><i class="material-icons left">event</i>Eventos</a></li>
+                    <li><a href="/GrowYourEmpire/rules" class="tooltipped" data-position="bottom" data-tooltip="Ver reglas del juego"><i class="material-icons left">book</i>Reglas</a></li>
+                    <li><a href="/GrowYourEmpire/logout"><i class="material-icons left">exit_to_app</i>Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </nav>
 
         <div class="container">
-        	<div class="row">
-                	<div class="col s12">
-                                <p>{{text}}</p>
-                                <table class="card blue lighten-4" border="1" cellspacing="2">
-                                        <tbody>
-                                                <tr>
-                                                        <td>Nombre</td>
-                                                        <td>{{village.villageName}}</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Dios</td>
-                                                        <td>{%if village.god == None %} <a class="waves-effect waves-light btn-large blue darken-2" href="/GrowYourEmpire/manager/gods">Elegir dios</a> {% else %} {{village.god.name}} {% endif %}</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Alimento almacenado</td>
-
-
-                                                        <td>{{village.storedFood}}</td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/trade' >Comerciar</a> </td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/manageOffers' >Ver ofertas</a> </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Madera almacenada</td>
-                                                        <td>{{village.storedWood}}</td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/trade' >Comerciar</a> </td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/manageOffers' >Ver ofertas</a> </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Piedra almacenada</td>
-                                                        <td>{{village.storedStone}}</td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/trade' >Comerciar</a> </td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/manageOffers' >Ver ofertas</a> </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Alimento diario obtenido</td>
-                                                        <td>{{village.dailyFood}}</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Madera diaria obtenida</td>
-                                                        <td>{{village.dailyWood}}</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Piedra diaria obtenida</td>
-                                                        <td>{{village.dailyStone}}</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Nivel de recogida de alimentos</td>
-                                                        <td>{{village.foodLevel}}</td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Nivel de recogida de madera</td>
-                                                        <td>{{village.woodLevel}}</td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Nivel de recogida de piedra</td>
-                                                        <td>{{village.stoneLevel}}</td>
-                                                        <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Nivel de las murallas</td>
-                                                        <td>{{village.wallLevel}}</td>
-                                                        <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
-                                                </tr> 
-                                                <tr>
-                                                        <td>Nivel del almacenamiento</td>
-                                                        <td>{{village.storageLevel}}</td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/upgrade' >Mejorar</a> </td>
-                                                </tr>
-                                                <tr>
-                                                        <td>Soldados</td>
-                                                        <td>{{village.soldiers}}</td>
-                                                        <td> <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/attack' >Atacar</a> </td>
-                                                        <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/train' >Entrenar soldados</a> </td>
-                                                </tr>
-                                        </tbody>
-                                </table>
-                                <table class="card blue lighten-3"" border="1" cellspacing="2">
-                                        <thead>
-                                                <tr>
-                                                        <th><span>Actividades recientes</span></th>
-                                                </tr>
-                                        </thead>
-                                        <tbody>
-                                                        {%for activity in activities%}
-                                                        <tr>
-                                                                <th>[{{activity.activityDate}}] {{activity.activityText}} </th>
-                                                        </tr>
-                                                        {%endfor%}
-                                        </tbody>
-                                </table>
-                        </div>
+            <!-- Village Header -->
+            <div class="card blue lighten-4 village-header">
+                <div class="row valign-wrapper">
+                    <div class="col s8">
+                        <h4><i class="material-icons left">cabin</i>{{village.villageName}}</h4>
+                        <p>{{text}}</p>
+                    </div>
+                    <div class="col s4 center-align">
+                        {% if village.god == None %}
+                            <a class="waves-effect waves-light btn-large blue darken-2 tooltipped" data-position="bottom" data-tooltip="Elige un dios para tu aldea" href="/GrowYourEmpire/manager/gods">
+                                <i class="material-icons left">bolt</i>Elegir dios
+                            </a>
+                        {% else %}
+                            <h5><i class="material-icons left">bolt</i>{{village.god.name}}</h5>
+                        {% endif %}
+                    </div>
                 </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="tab col s3"><a class="active" href="#resources">Recursos</a></li>
+                        <li class="tab col s3"><a href="#production">Producción</a></li>
+                        <li class="tab col s3"><a href="#buildings">Edificios</a></li>
+                        <li class="tab col s3"><a href="#military">Militar</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Tab -->
+                <div id="resources" class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card blue lighten-4">
+                                <div class="card-content">
+                                    <span class="card-title"><i class="material-icons left">inventory_2</i>Almacenamiento</span>
+                                    <div class="row">
+                                        <div class="col s4">
+                                            <div class="center-align">
+                                                <i class="material-icons medium">restaurant</i>
+                                                <h5>Alimento</h5>
+                                                <span class="resource-value tooltipped" data-position="bottom" data-tooltip="Alimento almacenado">{{village.storedFood}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col s4">
+                                            <div class="center-align">
+                                                <i class="material-icons medium">park</i>
+                                                <h5>Madera</h5>
+                                                <span class="resource-value tooltipped" data-position="bottom" data-tooltip="Madera almacenada">{{village.storedWood}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col s4">
+                                            <div class="center-align">
+                                                <i class="material-icons medium">landscape</i>
+                                                <h5>Piedra</h5>
+                                                <span class="resource-value tooltipped" data-position="bottom" data-tooltip="Piedra almacenada">{{village.storedStone}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-action center-align">
+                                    <a class="waves-effect waves-light btn blue darken-2" href="/GrowYourEmpire/manager/trade">
+                                        <i class="material-icons left">swap_horiz</i>Comerciar
+                                    </a>
+                                    <a class="waves-effect waves-light btn blue darken-2" href="/GrowYourEmpire/manager/manageOffers">
+                                        <i class="material-icons left">list</i>Ver ofertas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Production Tab -->
+                <div id="production" class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card blue lighten-4">
+                                <div class="card-content">
+                                    <span class="card-title"><i class="material-icons left">trending_up</i>Producción Diaria</span>
+                                    <div class="row">
+                                        <div class="col s4">
+                                            <div class="center-align">
+                                                <i class="material-icons medium">restaurant</i>
+                                                <h5>Alimento</h5>
+                                                <p>Nivel: {{village.foodLevel}}</p>
+                                                <span class="resource-value tooltipped" data-position="bottom" data-tooltip="Producción diaria de alimento">{{village.dailyFood}}</span>
+                                                <div class="card-action">
+                                                    <a class="waves-effect waves-light btn blue darken-2" href="/GrowYourEmpire/manager/upgrade">
+                                                        <i class="material-icons left">arrow_upward</i>Mejorar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s4">
+                                            <div class="center-align">
+                                                <i class="material-icons medium">park</i>
+                                                <h5>Madera</h5>
+                                                <p>Nivel: {{village.woodLevel}}</p>
+                                                <span class="resource-value tooltipped" data-position="bottom" data-tooltip="Producción diaria de madera">{{village.dailyWood}}</span>
+                                                <div class="card-action">
+                                                    <a class="waves-effect waves-light btn blue darken-2" href="/GrowYourEmpire/manager/upgrade">
+                                                        <i class="material-icons left">arrow_upward</i>Mejorar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s4">
+                                            <div class="center-align">
+                                                <i class="material-icons medium">landscape</i>
+                                                <h5>Piedra</h5>
+                                                <p>Nivel: {{village.stoneLevel}}</p>
+                                                <span class="resource-value tooltipped" data-position="bottom" data-tooltip="Producción diaria de piedra">{{village.dailyStone}}</span>
+                                                <div class="card-action">
+                                                    <a class="waves-effect waves-light btn blue darken-2" href="/GrowYourEmpire/manager/upgrade">
+                                                        <i class="material-icons left">arrow_upward</i>Mejorar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buildings Tab -->
+                <div id="buildings" class="col s12">
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="card blue lighten-4">
+                                <div class="card-content center-align">
+                                    <span class="card-title"><i class="material-icons">security</i>Murallas</span>
+                                    <p>Nivel: {{village.wallLevel}}</p>
+                                    <div class="card-action">
+                                        <a class="waves-effect waves-light btn blue darken-2 tooltipped" data-position="bottom" data-tooltip="Mejora las defensas de tu aldea" href="/GrowYourEmpire/manager/upgrade">
+                                            <i class="material-icons left">arrow_upward</i>Mejorar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <div class="card blue lighten-4">
+                                <div class="card-content center-align">
+                                    <span class="card-title"><i class="material-icons">warehouse</i>Almacén</span>
+                                    <p>Nivel: {{village.storageLevel}}</p>
+                                    <div class="card-action">
+                                        <a class="waves-effect waves-light btn blue darken-2 tooltipped" data-position="bottom" data-tooltip="Aumenta la capacidad de almacenamiento" href="/GrowYourEmpire/manager/upgrade">
+                                            <i class="material-icons left">arrow_upward</i>Mejorar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Military Tab -->
+                <div id="military" class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card blue lighten-4">
+                                <div class="card-content center-align">
+                                    <span class="card-title"><i class="material-icons">military_tech</i>Ejército</span>
+                                    <h4>{{village.soldiers}} Soldados</h4>
+                                    <div class="card-action">
+                                        <a class="waves-effect waves-light btn blue darken-2 tooltipped" data-position="bottom" data-tooltip="Entrena más soldados" href="/GrowYourEmpire/manager/train">
+                                            <i class="material-icons left">person_add</i>Entrenar
+                                        </a>
+                                        <a class="waves-effect waves-light btn blue darken-2 tooltipped" data-position="bottom" data-tooltip="Ataca a otras aldeas" href="/GrowYourEmpire/manager/attack">
+                                            <i class="material-icons left">flag</i>Atacar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activities Log -->
+            <div class="card blue lighten-4">
+                <div class="card-content">
+                    <span class="card-title"><i class="material-icons left">history</i>Actividades Recientes</span>
+                    <div class="collection">
+                        {% for activity in activities %}
+                            <div class="collection-item">
+                                <span class="badge">{{activity.activityDate}}</span>
+                                {{activity.activityText}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize tabs
+                var tabs = document.querySelectorAll('.tabs');
+                M.Tabs.init(tabs);
+                
+                // Initialize tooltips
+                var tooltips = document.querySelectorAll('.tooltipped');
+                M.Tooltip.init(tooltips);
+            });
+        </script>
     </body>
 </html>

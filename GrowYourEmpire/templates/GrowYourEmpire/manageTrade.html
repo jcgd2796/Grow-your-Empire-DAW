@@ -2,45 +2,143 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Manage trade</title>
+        <title>Comercio - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .trade-section { margin: 20px 0; }
+            .trade-item { padding: 15px; }
+            .resource-icon { margin-right: 5px; }
+            .trade-actions { margin-top: 10px; }
+        </style>
     </head>
-    <body class="grey lighten-5 flow-text">
-        <div class="container"> 
-                        <div class="row">
-                                <div class=" card blue lighten-4 col s12">
-                                        <p>Peticiones de comercio pendientes</p>
-                                        <table border="1" cellspacing="2">
-                                                <tbody>
-                                                        {%for offer in offersOwned%}
-                                                        <tr>
-                                                                <td>Has ofrecido a {{offer.destination.villageName}} {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
-                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/cancelOffer{{offer.id}}' >Cancelar</a></td>
-                                                        </tr>
-                                                        {%endfor%}
-                                                </tbody>
-                                        </table>
-                                        <p>Peticiones de comercio recibidas</p>
-                                        <table border="1" cellspacing="2">
-                                                <tbody>
-                                                        {%for offer in offersReceived%}
-                                                        <tr>
-                                                                <td>{{offer.source.villageName}} te ofrece {{offer.offeredWood}} madera, {{offer.offeredStone}} piedra y {{offer.offeredFood}} comida a cambio de {{offer.wantedWood}} madera, {{offer.wantedStone}} piedra y {{offer.wantedFood}} comida</td>
-                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/acceptOffer{{offer.id}}' >Aceptar</a></td>
-                                                                <td><a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager/RejectOffer{{offer.id}}' >Rechazar</a></td>
-                                                        </tr>
-                                                        {%endfor%}
-                                                </tbody>
-                                        </table>
-                                </div>
-                           </div>
-                        <a class="waves-effect waves-light btn-large blue darken-2" href='/GrowYourEmpire/manager' >Atrás</a>
-                        </form>
-                        
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/manager" class="tooltipped" data-position="bottom" data-tooltip="Volver a la aldea">
+                        <i class="material-icons left">arrow_back</i>Volver
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- Outgoing Trade Offers -->
+            <div class="row trade-section">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content blue lighten-4">
+                            <h4>Ofertas de comercio enviadas</h4>
+                            <div class="collection">
+                                {% for offer in offersOwned %}
+                                    <div class="collection-item trade-item">
+                                        <div class="row">
+                                            <div class="col s9">
+                                                <p>Has ofrecido a <b>{{offer.destination.villageName}}</b>:</p>
+                                                <p>
+                                                    {% if offer.offeredWood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">park</i>{{offer.offeredWood}} madera
+                                                    {% endif %}
+                                                    {% if offer.offeredStone > 0 %}
+                                                        <i class="material-icons tiny resource-icon">landscape</i>{{offer.offeredStone}} piedra
+                                                    {% endif %}
+                                                    {% if offer.offeredFood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">restaurant</i>{{offer.offeredFood}} comida
+                                                    {% endif %}
+                                                </p>
+                                                <p>A cambio de:</p>
+                                                <p>
+                                                    {% if offer.wantedWood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">park</i>{{offer.wantedWood}} madera
+                                                    {% endif %}
+                                                    {% if offer.wantedStone > 0 %}
+                                                        <i class="material-icons tiny resource-icon">landscape</i>{{offer.wantedStone}} piedra
+                                                    {% endif %}
+                                                    {% if offer.wantedFood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">restaurant</i>{{offer.wantedFood}} comida
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col s3 center-align">
+                                                <a class="btn waves-effect waves-light red" href='/GrowYourEmpire/manager/cancelOffer{{offer.id}}'>
+                                                    <i class="material-icons left">cancel</i>Cancelar
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Incoming Trade Offers -->
+            <div class="row trade-section">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content blue lighten-4">
+                            <h4>Ofertas de comercio recibidas</h4>
+                            <div class="collection">
+                                {% for offer in offersReceived %}
+                                    <div class="collection-item trade-item">
+                                        <div class="row">
+                                            <div class="col s9">
+                                                <p><b>{{offer.source.villageName}}</b> te ofrece:</p>
+                                                <p>
+                                                    {% if offer.offeredWood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">park</i>{{offer.offeredWood}} madera
+                                                    {% endif %}
+                                                    {% if offer.offeredStone > 0 %}
+                                                        <i class="material-icons tiny resource-icon">landscape</i>{{offer.offeredStone}} piedra
+                                                    {% endif %}
+                                                    {% if offer.offeredFood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">restaurant</i>{{offer.offeredFood}} comida
+                                                    {% endif %}
+                                                </p>
+                                                <p>A cambio de:</p>
+                                                <p>
+                                                    {% if offer.wantedWood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">park</i>{{offer.wantedWood}} madera
+                                                    {% endif %}
+                                                    {% if offer.wantedStone > 0 %}
+                                                        <i class="material-icons tiny resource-icon">landscape</i>{{offer.wantedStone}} piedra
+                                                    {% endif %}
+                                                    {% if offer.wantedFood > 0 %}
+                                                        <i class="material-icons tiny resource-icon">restaurant</i>{{offer.wantedFood}} comida
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col s3 center-align">
+                                                <div class="trade-actions">
+                                                    <a class="btn waves-effect waves-light green" href='/GrowYourEmpire/manager/acceptOffer{{offer.id}}'>
+                                                        <i class="material-icons left">check</i>Aceptar
+                                                    </a>
+                                                    <a class="btn waves-effect waves-light red" href='/GrowYourEmpire/manager/RejectOffer{{offer.id}}'>
+                                                        <i class="material-icons left">close</i>Rechazar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

@@ -2,73 +2,128 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Trade</title>
+        <title>Comercio - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript">
-	function checkBounds(){
-		if(parseInt(document.tradeForm.offeredWood.value) < 0 || parseInt(document.tradeForm.offeredWood.value) > parseInt({{village.storedWood}})
-		|| parseInt(document.tradeForm.offeredStone.value) < 0 || parseInt(document.tradeForm.offeredStone.value) > parseInt({{village.storedStone}})
-		|| parseInt(document.tradeForm.offeredFood.value) < 0 || parseInt(document.tradeForm.offeredFood.value) > parseInt({{village.storedFood}})
-		|| parseInt(document.tradeForm.wantedWood.value) < 0 || parseInt(document.tradeForm.wantedFood.value) < 0
-		|| parseInt(document.tradeForm.wantedStone.value) < 0){
-			alert("Has seleccionado una cantidad de recursos no válida, o estás ofreciendo más recursos de los disponibles.");
-			return false;
-		}else{
-			return true;
-		}
-	}
-    </script>	
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .trade-card { margin: 20px 0; }
+            .resource-section { margin: 15px 0; }
+            .resource-input { margin: 10px 0; }
+        </style>
+
+        <script type="text/javascript">
+            function checkBounds(){
+                if(parseInt(document.tradeForm.offeredWood.value) < 0 || parseInt(document.tradeForm.offeredWood.value) > parseInt({{village.storedWood}})
+                || parseInt(document.tradeForm.offeredStone.value) < 0 || parseInt(document.tradeForm.offeredStone.value) > parseInt({{village.storedStone}})
+                || parseInt(document.tradeForm.offeredFood.value) < 0 || parseInt(document.tradeForm.offeredFood.value) > parseInt({{village.storedFood}})
+                || parseInt(document.tradeForm.wantedWood.value) < 0 || parseInt(document.tradeForm.wantedFood.value) < 0
+                || parseInt(document.tradeForm.wantedStone.value) < 0){
+                    M.toast({html: 'Cantidad de recursos no válida o insuficiente', classes: 'red'});
+                    return false;
+                }
+                return true;
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var selects = document.querySelectorAll('select');
+                M.FormSelect.init(selects);
+            });
+        </script>
     </head>
-    <body class="grey lighten-5 flow-text">
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/manager" class="tooltipped" data-position="bottom" data-tooltip="Volver a la aldea">
+                        <i class="material-icons left">arrow_back</i>Volver
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="container">
-                        <p>Comerciar</p>
-                        <form name="tradeForm" action="./saveTrade" onsubmit="return checkBounds()" method="POST">
-                        {%csrf_token %}
-                        <div class="row">
-                                <div class="col s12">
-                                        <table class="card blue lighten-4" border="1" cellspacing="2">
-                                                <tbody>
-                                                        <tr>
-                                                                <td>Aldea con la que comerciar</td>
-                                                                <td><select class="browser-default flow-text" name="target">
-                                                                                {% for village in villages %}
-                                                                                <option>{{ village.villageName }}</option>
-                                                                                {% endfor %}
-                                                                </select></td>
-                                                        </tr>
-                                                        <tr>
-                                                                <td>Madera ofrecida</td>
-                                                                <td>Piedra ofrecida</td>
-                                                                <td>Alimento ofrecido</td>
-                                                        </tr>
-                                                        <tr>
-                                                                <td><input type="number" name="offeredWood" id="offeredWood" value="0" size=25></td>
-                                                                <td><input type="number" name="offeredStone" id="offeredStone" size=25 value="0"></td>
-                                                                <td><input type="number" name="offeredFood" id="offeredFood" size=25 value="0"></td>
-                                                        </tr>
-                                                        <tr>
-                                                                <td>Madera solicitada</td>
-                                                                <td>Piedra solicitada</td>
-                                                                <td>Alimento solicitado</td>
-                                                        </tr>
-                                                        <tr>
-                                                                <td><input type="number" name="wantedWood" id="wantedWood" size=25 value="0">
-                                                                <td><input type="number" name="wantedStone" id="wantedStone" size=25 value="0">
-                                                                <td><input type="number" name="wantedFood" id="wantedFood" size=25 value="0">
-                                                        </tr>
-                                                </tbody>
-                                        </table>
-                                </div>
-                           </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card trade-card">
+                        <div class="card-content blue lighten-4">
+                            <h4>
+                                <i class="material-icons left">swap_horiz</i>
+                                Comerciar
+                            </h4>
+                            <form name="tradeForm" action="./saveTrade" onsubmit="return checkBounds()" method="POST">
+                                {% csrf_token %}
                                 
-                        <input class="waves-effect waves-light btn-large blue darken-1 black-text" type="submit" value="Enviar" name="submit" />
-                        <a class="waves-effect waves-light btn-large blue darken-1 black-text" href='/GrowYourEmpire/manager' >Atrás</a>
-                        </form>
-                        
+                                <div class="input-field">
+                                    <h4>Aldea objetivo</h4>
+                                    <select class="browser-default" name="target">
+                                        {% for village in villages %}
+                                            <option>{{ village.villageName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="row resource-section">
+                                    <h5>Recursos a ofrecer</h5>
+                                    <div class="col s4 resource-input">
+                                        <i class="material-icons prefix">park</i>
+                                        <input type="number" name="offeredWood" id="offeredWood" value="0" min="0">
+                                        <label for="offeredWood">Madera</label>
+                                    </div>
+                                    <div class="col s4 resource-input">
+                                        <i class="material-icons prefix">landscape</i>
+                                        <input type="number" name="offeredStone" id="offeredStone" value="0" min="0">
+                                        <label for="offeredStone">Piedra</label>
+                                    </div>
+                                    <div class="col s4 resource-input">
+                                        <i class="material-icons prefix">restaurant</i>
+                                        <input type="number" name="offeredFood" id="offeredFood" value="0" min="0">
+                                        <label for="offeredFood">Alimento</label>
+                                    </div>
+                                </div>
+
+                                <div class="row resource-section">
+                                    <h5>Recursos solicitados</h5>
+                                    <div class="col s4 resource-input">
+                                        <i class="material-icons prefix">park</i>
+                                        <input type="number" name="wantedWood" id="wantedWood" value="0" min="0">
+                                        <label for="wantedWood">Madera</label>
+                                    </div>
+                                    <div class="col s4 resource-input">
+                                        <i class="material-icons prefix">landscape</i>
+                                        <input type="number" name="wantedStone" id="wantedStone" value="0" min="0">
+                                        <label for="wantedStone">Piedra</label>
+                                    </div>
+                                    <div class="col s4 resource-input">
+                                        <i class="material-icons prefix">restaurant</i>
+                                        <input type="number" name="wantedFood" id="wantedFood" value="0" min="0">
+                                        <label for="wantedFood">Alimento</label>
+                                    </div>
+                                </div>
+
+                                <div class="card-action center-align">
+                                    <button class="btn waves-effect waves-light blue darken-2" type="submit" name="submit">
+                                        <i class="material-icons left">send</i>Enviar oferta
+                                    </button>
+                                    <a class="btn waves-effect waves-light blue darken-2" href='/GrowYourEmpire/manager'>
+                                        <i class="material-icons left">cancel</i>Cancelar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

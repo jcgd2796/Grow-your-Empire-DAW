@@ -2,60 +2,99 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Training</title>
+        <title>Entrenamiento - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript">
-	function checkBounds(){
-		const amount = parseInt(document.getElementById("amount").value);
-                if (amount <= 0 || (amount*2) > parseInt({{village.storedFood}})){
-			alert("Recursos insuficientes, o cantidad de soldados a entrenar no válida");
-			return false;                        
-              	}
-		return true;
-	}
-    </script>
-    
-    </head>
-    <body class="grey lighten-5 flow-text">
-        <div class="container">
-                        <p>Entrenar soldados</p>
-                        <form id="trainForm" name="trainForm" action="./saveTraining" onsubmit="return checkBounds()" method="POST">
-                        {%csrf_token %}
-                        <div class="row">
-                                <table class = "col s12 card blue lighten-4" border="1" cellspacing="2">
-                                        <thead>
-                                                <tr>
-                                                        <th class="col s6">Selecciona la cantidad de soldados a entrenar</th>
-                                                        <th class="col s6">Coste de alimento</th>
-                                                </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td class="col s6"><input type="number" name="amount" id="amount" value="1"></input></td>
-                                                        <td class="col s6"><p id="cost"></p></td>
-                                                </tr>
-                                        </tbody>
-                                </table>
-                           </div>
-                                
-                        <input class="waves-effect waves-light btn-large blue darken-2" type="submit" value="Enviar" name="submit" />
-                        <a class="waves-effect waves-light btn-large blue darken-2 black-text" href='/GrowYourEmpire/manager' >Atrás</a>
-                        </form>
-                        
-        </div>	
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .training-card { margin: 20px 0; }
+            .cost-display { font-size: 1.2rem; color: #1565c0; }
+        </style>
+
         <script type="text/javascript">
-	var costText = document.getElementById("cost");
-	var units = document.getElementById("amount");
-	units.addEventListener("change", () => {
-		if(units.value > 0){costText.textContent = units.value*2}
-		else{costText.textContent = "-"}
-			
-	})		
-    	</script>	
+            function checkBounds(){
+                const amount = parseInt(document.getElementById("amount").value);
+                if (amount <= 0 || (amount*2) > parseInt({{village.storedFood}})){
+                    M.toast({html: 'Recursos insuficientes o cantidad no válida', classes: 'red'});
+                    return false;                        
+                }
+                return true;
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var costText = document.getElementById("cost");
+                var units = document.getElementById("amount");
+                units.addEventListener("change", () => {
+                    if(units.value > 0){
+                        costText.textContent = units.value*2 + " alimento";
+                    } else {
+                        costText.textContent = "-";
+                    }
+                });
+                // Inicializar el costo
+                costText.textContent = "2 alimento";
+            });
+        </script>
+    </head>
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/manager" class="tooltipped" data-position="bottom" data-tooltip="Volver a la aldea">
+                        <i class="material-icons left">arrow_back</i>Volver
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card training-card">
+                        <div class="card-content blue lighten-4">
+                            <h4>
+                                <i class="material-icons left">military_tech</i>
+                                Entrenar soldados
+                            </h4>
+                            <form id="trainForm" name="trainForm" action="./saveTraining" onsubmit="return checkBounds()" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col s6">
+                                        <div class="input-field">
+                                            <i class="material-icons prefix">group</i>
+                                            <input type="number" name="amount" id="amount" value="1" class="validate">
+                                            <label for="amount">Cantidad de soldados</label>
+                                        </div>
+                                    </div>
+                                    <div class="col s6">
+                                        <h5>Coste</h5>
+                                        <p class="cost-display" id="cost"></p>
+                                    </div>
+                                </div>
+                                <div class="card-action center-align">
+                                    <button class="btn waves-effect waves-light blue darken-2" type="submit" name="submit">
+                                        <i class="material-icons left">add</i>Entrenar
+                                    </button>
+                                    <a class="btn waves-effect waves-light blue darken-2" href='/GrowYourEmpire/manager'>
+                                        <i class="material-icons left">cancel</i>Cancelar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
 

@@ -2,37 +2,85 @@
 <html>
 
 <head>
-	<title>Login</title>
+	<title>Grow Your Empire - Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!-- Material Icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- jQuery (needed for Materialize) -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<style>
+		.login-container { 
+			margin-top: 50px; 
+		}
+		.login-card {
+			padding: 20px;
+		}
+		.card-title {
+			font-size: 2rem;
+			margin-bottom: 30px;
+		}
+		.error-msg {
+			color: #d32f2f;
+			margin: 10px 0;
+		}
+	</style>
 </head>
 
 <body class="grey lighten-5">
-	<form action='/GrowYourEmpire/login' method="POST">
-		{%csrf_token %}
+	<!-- Navbar -->
+	<nav class="blue darken-1">
+		<div class="nav-wrapper">
+			<span class="brand-logo">Grow Your Empire</span>
+		</div>
+	</nav>
+
+	<div class="container login-container">
 		<div class="row">
-			<div class="col s6 offset-s3">
-				<div class="card blue lighten-2">
-					<div class="card-action grey lighten-3">
-						<p>{{msg}}</p>
-						<div class="input-field">
-							<input id="User" type="text" name="user" />
-							<label class="grey-text" for="User">User</label>
-						</div>
-						<div class="input-field">
-							<input id="pass" type="password" name="password" />
-							<label class="grey-text" for="pass">Password</label>
-						</div>
-						<input class="waves-effect waves-light btn-small blue" type="submit" value="Iniciar sesión"name="login" />
+			<div class="col s12 m8 offset-m2 l6 offset-l3">
+				<div class="card">
+					<div class="card-content blue lighten-4">
+						<span class="card-title center-align">
+							<br>
+							Iniciar Sesión
+						</span>
+
+						<form action='/GrowYourEmpire/login' method="POST">
+							{% csrf_token %}
+							{% if msg %}
+								<p class="error-msg center-align">{{msg}}</p>
+							{% endif %}
+
+							<div class="input-field">
+								<i class="material-icons prefix">person</i>
+								<input id="User" type="text" name="user" class="validate" required />
+								<label for="User">Usuario</label>
+							</div>
+
+							<div class="input-field">
+								<i class="material-icons prefix">lock</i>
+								<input id="pass" type="password" name="password" class="validate" required />
+								<label for="pass">Contraseña</label>
+							</div>
+
+							<div class="center-align" style="margin-top: 30px;">
+								<button class="btn waves-effect waves-light blue darken-2" type="submit" name="login">
+									<i class="material-icons left">login</i>
+									Iniciar sesión
+								</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form>
+	</div>
+
 </body>
 
 </html>

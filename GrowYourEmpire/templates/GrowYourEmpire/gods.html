@@ -2,60 +2,116 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Dioses mayores</title>
+        <title>Dioses - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript">
-        function checkBounds(){
-            if( 1000 > parseInt({{village.storedWood}})
-                || 1000 > parseInt({{village.storedStone}})
-                || 1000 > parseInt({{village.storedFood}})){
-                alert("No tienes recursos suficientes.");
-                return false;
-            }else{
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .card-title { padding: 20px; font-size: 24px; font-weight: bold; }
+            .god-card { margin: 15px 0; }
+            .god-name { font-size: 1.5rem; font-weight: bold; }
+            .god-desc { font-size: 1.1rem; margin: 10px 0; }
+            .god-bonus { color: #1565c0; font-weight: bold; }
+            .info-section { margin: 20px 0; }
+        </style>
+
+        <script type="text/javascript">
+            function checkBounds(){
+                if(1000 > parseInt({{village.storedWood}}) || 
+                   1000 > parseInt({{village.storedStone}}) || 
+                   1000 > parseInt({{village.storedFood}})){
+                    M.toast({html: 'No tienes recursos suficientes para construir el altar', classes: 'red'});
+                    return false;
+                }
                 return true;
             }
-        }
-        </script>	    
+        </script>
+    </head>
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/manager">
+                        <i class="material-icons left">arrow_back</i>Volver
+                    </a></li>
+                    <li><a href="/GrowYourEmpire/rules" class="tooltipped" data-position="bottom" data-tooltip="Ver reglas">
+                        <i class="material-icons left">book</i>Reglas
+                    </a></li>
+                    <li><a href="/GrowYourEmpire/logout">
+                        <i class="material-icons left">exit_to_app</i>Cerrar sesión
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
 
-</head>
-    <body class="grey lighten-5 flow-text">
-    	
-	<div class="right-align">
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesion</a>
-    <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/manager' >Volver a la gestión de la aldea</a>
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire' >Volver a la página principal</a>
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules' >Reglas</a>
-	</div>
-        <div class="container row col s12" >
-            <p>A continuación se muestran los dioses disponibles para elegir. Cada dios tiene un bonus que se aplicará a tu aldea una vez elegido.</p>
-            <p>Para elegir un dios, deberás construir un altar. Este altar cuesta 1000 de piedra, 1000 de madera y 1000 de alimento, y solo se puede construir uno por aldea.</p>
-            <p>Si deseas cambiar de dios, deberás destruir el altar actual y construir uno nuevo, lo que supondrá un gasto de recursos.</p>
-        </div>
         <div class="container">
-                <table class="col s8 card grey lighten-3" border="1" cellspacing="2">
-                    {% for god in gods %}
-                    <thead>
-                        <tr>
-                            <th>{{god.name}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{god.desc}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{god.bonus}}</td>
-                        </tr>
-                        <tr>
-                            <th><a class="waves-effect waves-light btn-small blue darken-1" href="/GrowYourEmpire/manager/saveGod{{god.name}}" onclick="return checkBounds()">Elegir a {{god.name}}</a></th>
-                        </tr>
-                    </tbody>
-                    {% endfor %}
-                </table>
+            <!-- Info Section -->
+            <div class="row">
+                <div class="col s12">
+                    <div class="card info-section">
+                        <div class="card-content blue lighten-4">
+                            <h4>Dioses Mayores</h4>
+                            <p class="flow-text">A continuación se muestran los dioses disponibles para elegir. Cada dios tiene un bonus que se aplicará a tu aldea una vez elegido.</p>
+                            <p class="flow-text">Para elegir un dios, deberás construir un altar. Este altar cuesta:</p>
+                            <div class="row center-align">
+                                <div class="col s4">
+                                    <p><i class="material-icons">restaurant</i></p>
+                                    <p>1000 alimento</p>
+                                </div>
+                                <div class="col s4">
+                                    <p><i class="material-icons">park</i></p>
+                                    <p>1000 madera</p>
+                                </div>
+                                <div class="col s4">
+                                    <p><i class="material-icons">landscape</i></p>
+                                    <p>1000 piedra</p>
+                                </div>
+                            </div>
+                            <p class="flow-text">Solo se puede construir un altar por aldea. Si deseas cambiar de dios, deberás destruir el altar actual y construir uno nuevo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gods Section -->
+            <div class="row">
+                {% for god in gods %}
+                <div class="col s12 m6">
+                    <div class="card god-card">
+                        <div class="card-content blue lighten-4">
+                            <span class="card-title">{{god.name}}</span>
+                            <p class="god-desc">{{god.desc}}</p>
+                            <p class="god-bonus">{{god.bonus}}</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a class="waves-effect waves-light btn blue darken-2" 
+                               href="/GrowYourEmpire/manager/saveGod{{god.name}}" 
+                               onclick="return checkBounds()">
+                                <i class="material-icons left">bolt</i>
+                                Elegir a {{god.name}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var tooltips = document.querySelectorAll('.tooltipped');
+                M.Tooltip.init(tooltips);
+            });
+        </script>
     </body>
 </html>

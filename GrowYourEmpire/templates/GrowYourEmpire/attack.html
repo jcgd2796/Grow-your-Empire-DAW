@@ -2,53 +2,90 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Attack</title>
+        <title>Atacar Aldea</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript">
-	function checkBounds(){
-		if(parseInt(document.attackForm.units.value) <= 0 || parseInt(document.attackForm.units.value) > parseInt({{village.soldiers}})){
-			alert("Has seleccionado un número no válido, o superior a la cantidad de soldados disponibles");
-			return false;
-		}else{
-			return true;
-		}
-	}
-    </script>	
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .card-title { padding: 20px; font-size: 24px; font-weight: bold; }
+            select { display: block; } /* Override Materialize default hidden */
+        </style>
+
+        <script type="text/javascript">
+            function checkBounds(){
+                if(parseInt(document.attackForm.units.value) <= 0 || parseInt(document.attackForm.units.value) > parseInt({{village.soldiers}})){
+                    M.toast({html: 'Número de soldados no válido o superior a la cantidad disponible', classes: 'red'});
+                    return false;
+                }
+                return true;
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var selects = document.querySelectorAll('select');
+                M.FormSelect.init(selects);
+            });
+        </script>
     </head>
-    <body class="grey lighten-5 flow-text">
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/manager">
+                        <i class="material-icons left">arrow_back</i>Volver
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="container">
-                <p>Attack</p>
-                <form id="attackForm" name="attackForm" action="./saveAttack" onsubmit="return checkBounds()" method="POST">
-                {%csrf_token %}
-                <div class="row">
-                        <table class="col s12 card blue lighten-4" border="1" cellspacing="2">
-                                <thead>
-                                        <tr>
-                                                <th class="col s6">Selecciona la aldea que atacar</th>
-                                                <th class="col s6">Escoge el número de soldados con los que atacar la aldea</th>
-                                        </tr>
-                                </thead>
-                                <tbody>
-                                        <tr>
-                                                <td class="col s6"><select class="browser-default" name="objective">
-                                                        {% for village in villages %}
-                                                        <option>{{ village.villageName }}</option>
-                                                        {% endfor %}
-                                                </select></td>
-                                                <td class="col s6"><input type="number" name="units" id="units" size=25></td>
-                                        </tr>
-                                </tbody>
-                        </table>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content blue lighten-4">
+                            <span class="card-title">
+                                <i class="material-icons left">flag</i>Preparar Ataque
+                            </span>
+                            <form id="attackForm" name="attackForm" action="./saveAttack" onsubmit="return checkBounds()" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <p>Aldea objetivo</p>
+                                        <select name="objective" class="browser-default">
+                                            {% for village in villages %}
+                                                <option value="{{ village.villageName }}">{{ village.villageName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class="input-field col s6">  
+                                        <i class="material-icons prefix">military_tech</i>
+                                        <input type="number" name="units" id="units" class="validate">
+                                        <label for="units">Número de soldados (máx: {{village.soldiers}})</label>
+                                    </div>
+                                </div>
+                                <div class="card-action center-align">
+                                    <button class="btn waves-effect waves-light blue darken-2" type="submit">
+                                        <i class="material-icons left">send</i>Atacar
+                                    </button>
+                                    <a class="btn waves-effect waves-light blue darken-2" href='/GrowYourEmpire/manager'>
+                                        <i class="material-icons left">cancel</i>Cancelar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                        
-                <input class="waves-effect waves-light btn-large blue darken-2" type="submit" value="Enviar" name="submit" />
-                <a class="waves-effect waves-light btn-large blue darken-2 black-text" href='/GrowYourEmpire/manager' >Atrás</a>
-                </form>
-                        
+            </div>
         </div>
     </body>
 </html>

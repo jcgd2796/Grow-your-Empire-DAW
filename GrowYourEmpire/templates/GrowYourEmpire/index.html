@@ -3,48 +3,103 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Main page</title>
+	<title>Grow Your Empire - Página Principal</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!-- Material Icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- jQuery (needed for Materialize) -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<style>
+		.nav-wrapper { padding: 0 20px; }
+		.card-title { padding: 20px; font-size: 24px; font-weight: bold; }
+		.news-date { font-size: 0.9rem; color: #666; }
+		.news-item { padding: 10px; border-bottom: 1px solid #e0e0e0; }
+		.news-item:last-child { border-bottom: none; }
+		.test-item { padding: 10px; border-bottom: 1px solid #e0e0e0; }
+		.test-item:last-child { border-bottom: none; }
+	</style>
 </head>
 
-<body class="grey lighten-5 flow-text">
-	<div class="right-align">
-		<a class="waves-effect waves-light btn-small blue darken-1" href='./logout'>Cerrar sesión</a>
-		<a class="waves-effect waves-light btn-small blue darken-1" href='./manager'>Gestionar aldea</a>
-		<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules'>Reglas</a>
-		<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/ranking'>Ranking</a>
-	</div>
-	<div class="row">
-		<div class="col s9">
-			<div class="card blue lighten-2">
-				<div class="card-title">Tests</div>
-				<div class="card-action grey lighten-3">
-					{% for test in tests %}
-					<div>
-						<a class="blue-text text-darken-4" href='./test{{test.testName}}'>{{test.testName}}</a>
+<body class="grey lighten-5">
+	<!-- Navbar -->
+	<nav class="blue darken-1">
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">Grow Your Empire</a>
+			<ul class="right">
+				<li><a href="./manager" class="tooltipped" data-position="bottom" data-tooltip="Gestiona tu aldea">
+					<i class="material-icons left">cabin</i>Gestionar aldea
+				</a></li>
+				<li><a href="/GrowYourEmpire/ranking" class="tooltipped" data-position="bottom" data-tooltip="Ver clasificación">
+					<i class="material-icons left">leaderboard</i>Ranking
+				</a></li>
+				<li><a href="/GrowYourEmpire/rules" class="tooltipped" data-position="bottom" data-tooltip="Ver reglas del juego">
+					<i class="material-icons left">book</i>Reglas
+				</a></li>
+				<li><a href="./logout">
+					<i class="material-icons left">exit_to_app</i>Cerrar sesión
+				</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<!-- Tests Section -->
+			<div class="col s8">
+				<div class="card">
+					<div class="card-content blue lighten-4">
+						<span class="card-title">
+							<i class="material-icons left">assignment</i>Tests Disponibles
+						</span>
+						<div class="collection">
+							{% for test in tests %}
+								<a href='./test{{test.testName}}' class="collection-item test-item">
+									<i class="material-icons left">quiz</i>
+									{{test.testName}}
+									<i class="material-icons right">chevron_right</i>
+								</a>
+							{% endfor %}
+						</div>
 					</div>
-					{% endfor %}
+				</div>
+			</div>
+
+			<!-- News Section -->
+			<div class="col s4">
+				<div class="card">
+					<div class="card-content blue lighten-4">
+						<span class="card-title">
+							<i class="material-icons left">announcement</i>Noticias
+						</span>
+						<div class="collection">
+							{% for new in news %}
+								<a href='./new{{new.title}}' class="collection-item news-item">
+									<span class="title">{{new.title}}</span>
+									<p class="news-date left-align">
+										<i class="material-icons tiny">access_time</i>
+										{{new.registeredDateTime}}
+									</p>
+								</a>
+							{% endfor %}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col s3">
-			<div class="card blue lighten-2">
-				<div class="card-title">Noticias</div>
-				<div class="card-action grey lighten-3">
-					{% for new in news%}
-					<div>
-						<a class="blue-text text-darken-4" href='./new{{new.title}}'>{{new.title}}</a><i
-							class="right-align">{{new.newDate}}</i>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
 	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// Initialize tooltips
+			var tooltips = document.querySelectorAll('.tooltipped');
+			M.Tooltip.init(tooltips);
+		});
+	</script>
 </body>
 
 </html>

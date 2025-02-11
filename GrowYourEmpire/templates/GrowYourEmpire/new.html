@@ -2,33 +2,69 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Noticias</title>
+        <title>Noticia - Grow Your Empire</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .news-card { margin: 20px 0; }
+            .news-title { 
+                font-size: 1.8rem;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+            .news-content {
+                font-size: 1.2rem;
+                line-height: 1.6;
+            }
+        </style>
     </head>
-    <body class="grey lighten-5 flow-text">
-    	
-	<div class="right-align">
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesion</a>
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire' >Volver a la página principal</a>
-	<a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules' >Reglas</a>
-	</div>
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/rules" class="tooltipped" data-position="bottom" data-tooltip="Ver reglas">
+                        <i class="material-icons left">book</i>Reglas
+                    </a></li>
+                    <li><a href="/GrowYourEmpire/logout">
+                        <i class="material-icons left">exit_to_app</i>Cerrar sesión
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="container">
-            <table class="col s8 card grey lighten-3" border="1" cellspacing="2">
-                <thead>
-                    <tr>
-                        <th>{{news.0.title}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>{{news.0.desc}}</th>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card news-card">
+                        <div class="card-content blue lighten-4">
+                            <div class="news-title">
+                                {{news.0.title}}
+                            </div>
+                            <div class="news-content">
+                                {{news.0.desc}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var tooltips = document.querySelectorAll('.tooltipped');
+                M.Tooltip.init(tooltips);
+            });
+        </script>
     </body>
 </html>

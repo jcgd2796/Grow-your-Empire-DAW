@@ -4,28 +4,68 @@
         <meta charset="utf-8"/>
         <title>Eventos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- jQuery (needed for Materialize) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <style>
+            .nav-wrapper { padding: 0 20px; }
+            .card-title { padding: 20px; font-size: 24px; font-weight: bold; }
+            .event-card { margin: 10px 0; }
+            .event-title { font-size: 1.2rem; font-weight: bold; }
+        </style>
     </head>
-    <body class="grey lighten-5 flow-text">
-        <div class="right-align">
-            <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/logout'>Cerrar sesion</a>
-            <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire'>Volver a la página principal</a>
-            <a class="waves-effect waves-light btn-small blue darken-1" href='/GrowYourEmpire/rules'>Reglas</a>
-        </div>
+    <body class="grey lighten-5">
+        <!-- Navbar -->
+        <nav class="blue darken-1">
+            <div class="nav-wrapper">
+                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <ul class="right">
+                    <li><a href="/GrowYourEmpire/manager">
+                        <i class="material-icons left">arrow_back</i>Volver
+                    </a></li>
+                    <li><a href="/GrowYourEmpire/rules" class="tooltipped" data-position="bottom" data-tooltip="Ver reglas">
+                        <i class="material-icons left">book</i>Reglas
+                    </a></li>
+                    <li><a href="/GrowYourEmpire/logout">
+                        <i class="material-icons left">exit_to_app</i>Cerrar sesión
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="container">
             <div class="row">
-                <p>Eventos</p>
-			    <div class="col s8 card grey lighten-3">
-                            {%for event in events%}
-                                <div>
-                                <a href='/GrowYourEmpire/events/{{event.id}}'>{{event.title}}</a>
-                                <p>{{event.desc}}</p>
-                                </div>
-                            {%endfor%}
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content blue lighten-4">
+                            <h4>Eventos Activos</h4>
+                            <div class="collection">
+                                {% for event in events %}
+                                    <a href='/GrowYourEmpire/events/{{event.id}}' class="collection-item">
+                                        <span class="event-title">
+                                            {{event.title}}
+                                        </span>
+                                        <p>{{event.desc}}</p>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var tooltips = document.querySelectorAll('.tooltipped');
+                M.Tooltip.init(tooltips);
+            });
+        </script>
     </body>
 </html>

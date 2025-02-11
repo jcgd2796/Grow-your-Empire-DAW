@@ -255,7 +255,7 @@ def events(request):
 		return render(request,'GrowYourEmpire/login.html',{'msg':'Es necesario iniciar sesión para acceder a la página solicitada'})
 	else:
 		village = Village.objects.get(owner=request.user.student)
-		events = Event.objects.all()
+		events = Event.objects.filter(startDate__lte=timezone.now(),endDate__gte=timezone.now())
 		return render(request,'GrowYourEmpire/events.html',{'village':village,'events':events})
 
 def event(request,eventId):
