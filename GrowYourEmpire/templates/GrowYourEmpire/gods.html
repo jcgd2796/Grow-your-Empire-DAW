@@ -28,7 +28,7 @@
                 if(1000 > parseInt({{village.storedWood}}) || 
                    1000 > parseInt({{village.storedStone}}) || 
                    1000 > parseInt({{village.storedFood}})){
-                    M.toast({html: 'No tienes recursos suficientes para construir el altar', classes: 'red'});
+                    M.toast({html: 'No tienes recursos suficientes para construir el templo', classes: 'red'});
                     return false;
                 }
                 return true;
@@ -39,7 +39,7 @@
         <!-- Navbar -->
         <nav class="blue darken-1">
             <div class="nav-wrapper">
-                <a class="brand-logo" href="/GrowYourEmpire">Grow Your Empire</a>
+                <a class="brand-logo left" href="/GrowYourEmpire">Grow Your Empire</a>
                 <ul class="right">
                     <li><a href="/GrowYourEmpire/manager">
                         <i class="material-icons left">arrow_back</i>Volver
@@ -62,7 +62,7 @@
                         <div class="card-content blue lighten-4">
                             <h4>Dioses Mayores</h4>
                             <p class="flow-text">A continuación se muestran los dioses disponibles para elegir. Cada dios tiene un bonus que se aplicará a tu aldea una vez elegido.</p>
-                            <p class="flow-text">Para elegir un dios, deberás construir un altar. Este altar cuesta:</p>
+                            <p class="flow-text">Para elegir un dios, deberás construir un templo. Este templo cuesta:</p>
                             <div class="row center-align">
                                 <div class="col s4">
                                     <p><i class="material-icons">restaurant</i></p>
@@ -77,7 +77,7 @@
                                     <p>1000 piedra</p>
                                 </div>
                             </div>
-                            <p class="flow-text">Solo se puede construir un altar por aldea. Si deseas cambiar de dios, deberás destruir el altar actual y construir uno nuevo.</p>
+                            <p class="flow-text">Solo se puede construir un templo por aldea. Si deseas cambiar de dios, deberás destruir el templo actual y construir uno nuevo.</p>
                         </div>
                     </div>
                 </div>

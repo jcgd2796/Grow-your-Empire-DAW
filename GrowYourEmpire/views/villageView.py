@@ -12,10 +12,11 @@ def saveAttack(request):
 		defendant = Village.objects.get(villageName=request.POST['objective'])
 		soldiers = request.POST['units']
 		attacker = Village.objects.get(owner=request.user.student)
+		wantedResource = request.POST['wantedResource']
 		if int(soldiers) > attacker.soldiers:
 			return redirect(indexView.manager)
 		else:
-			attack = Attack(attacker=attacker,defendant=defendant,usedSoldiers=soldiers,registeredDateTime=timezone.now(),completed = False)
+			attack = Attack(attacker=attacker,defendant=defendant,usedSoldiers=soldiers,registeredDateTime=timezone.now(),completed = False,wantedResource=wantedResource)
 			attack.save()
 			attacker.soldiers-=int(soldiers)
 			attacker.save()

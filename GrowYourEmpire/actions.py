@@ -51,25 +51,53 @@ def processAttack():
 		defendant = Village.objects.get(owner = attack.defendant)
 		defendant_virtualUnits = round(defendant.soldiers*(1+0.1*defendant.wallLevel))
 		if attack.usedSoldiers > defendant_virtualUnits: #attacker wins
+			remainingSoldiers = round(attack.usedSoldiers - defendant_virtualUnits)
+			maxResources = remainingSoldiers*5
 			availableResources = [
 				round(defendant.storedFood*(1-0.1*defendant.storageLevel)),
 				round(defendant.storedWood*(1-0.1*defendant.storageLevel)),
 				round(defendant.storedStone*(1-0.1*defendant.storageLevel))]
+			stolenResources = [0,0,0]
+			while maxResources > 0:
+				if (availableResources[attack.wantedResource] > 0): #there's resources available from the desired type
+					availableResources[attack.wantedResource] = min(availableResources[attack.wantedResource],maxResources)
+					maxResources -= availableResources[attack.wantedResource]
+					stolenResources[attack.wantedResource] = availableResources[attack.wantedResource]
+					availableResources[attack.wantedResource] -= stolenResources[attack.wantedResource]
+				else:
+					if (availableResources[0] > 0): #get food
+						availableResources[0] = min(availableResources[0],maxResources)
+						maxResources -= availableResources[0]
+						stolenResources[0] += availableResources[0]
+						availableResources[0] -= stolenResources[0]
+					elif (availableResources[1] > 0): #get wood
+						availableResources[1] = min(availableResources[1],maxResources)
+						maxResources -= availableResources[1]
+						stolenResources[1] += availableResources[1]
+						availableResources[1] -= stolenResources[1]
+					elif (availableResources[2] > 0): #get stone
+						availableResources[2] = min(availableResources[2],maxResources)
+						maxResources -= availableResources[2]
+						stolenResources[2] += availableResources[2]
+						availableResources[2] -= stolenResources[2]
+					else:
+						break
+
 			Activity(
-				activityText=str(attacker.villageName)+' te ha atacado. Has perdido '+str(defendant.soldiers)+' soldados y te han saqueado '+str(availableResources[0])+' de alimento, '+str(availableResources[1])+' de madera y '+str(availableResources[2])+' de piedra'
+				activityText=str(attacker.villageName)+' te ha atacado. Has perdido '+str(defendant.soldiers)+' soldados y te han saqueado '+str(stolenResources[0])+' de alimento, '+str(stolenResources[1])+' de madera y '+str(stolenResources[2])+' de piedra'
 				,activityDate=timezone.now(),owner=defendant).save()
 			Activity(
-				activityText='Has atacado a '+str(defendant.villageName)+' y has ganado. Han vuelto '+str(round(attack.usedSoldiers-defendant_virtualUnits))+' soldados y has saqueado '+str(availableResources[0])+' de alimento, '+str(availableResources[1])+' de madera y '+str(availableResources[2])+' de piedra'
+				activityText='Has atacado a '+str(defendant.villageName)+' y has ganado. Han vuelto '+str(remainingSoldiers)+' soldados y has saqueado '+str(stolenResources[0])+' de alimento, '+str(stolenResources[1])+' de madera y '+str(stolenResources[2])+' de piedra'
 				,activityDate=timezone.now(),owner=attacker).save()
 			defendant.soldiers = 0
-			defendant.storedFood -= availableResources[0]
-			defendant.storedWood -= availableResources[1]
-			defendant.storedStone -= availableResources[2]
+			defendant.storedFood -= stolenResources[0]
+			defendant.storedWood -= stolenResources[1]
+			defendant.storedStone -= stolenResources[2]
 			defendant.save()
-			attacker.soldiers += (attack.usedSoldiers-defendant_virtualUnits)
-			attacker.storedFood += availableResources[0]
-			attacker.storedWood += availableResources[1]
-			attacker.storedStone += availableResources[2]
+			attacker.soldiers += remainingSoldiers
+			attacker.storedFood += stolenResources[0]
+			attacker.storedWood += stolenResources[1]
+			attacker.storedStone += stolenResources[2]
 			attacker.save()
 		else: #defendant wins
 			if defendant_virtualUnits - attack.usedSoldiers > defendant.soldiers: #defendant lost no soldiers

@@ -63,7 +63,7 @@ class Village(models.Model):
 	soldiers = models.IntegerField("Amount of units")
 	lastLogin = models.DateField("Last login")
 	disabled = models.BooleanField("Disabled")
-	god = models.ForeignKey(God,to_field="name",on_delete=models.CASCADE,null=True)
+	god = models.ForeignKey(God,to_field="name",on_delete=models.CASCADE,blank=True,null=True)
 	owner = models.OneToOneField(Student,to_field="user_id",on_delete=models.CASCADE,primary_key=True)
 
 	def __str__(self):
@@ -94,7 +94,7 @@ QUESTION_CHOICES = [
 ]
 
 class Question(models.Model):
-	questionText =  models.CharField("Question",max_length=50)
+	questionText =  models.CharField("Question",max_length=150)
 	expectedText = models.CharField("Expected text",max_length=100,blank=True)
 	questionType = models.CharField("Type",max_length=50,choices=QUESTION_CHOICES)
 	testName = models.ForeignKey(
@@ -114,7 +114,7 @@ class Question(models.Model):
         ]
 	
 class Option(models.Model):
-	questionOptionText = models.CharField("Option 1",max_length=50)
+	questionOptionText = models.CharField("Option 1",max_length=150)
 	questionText = models.ForeignKey(
 		Question,
 		on_delete = models.CASCADE,
@@ -187,6 +187,7 @@ class Attack(models.Model):
 		related_name="Defendant",
         )
 	usedSoldiers = models.IntegerField("Soldiers")
+	wantedResource = models.IntegerField("Resource wanted")
 	registeredDateTime = models.DateTimeField("Registration date")
 	completed = models.BooleanField("Completed")
 

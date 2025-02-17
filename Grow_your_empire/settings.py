@@ -56,7 +56,7 @@ CRONJOBS = [
     #to enable, run "python manage.py crontab add"
     #to show, run "python manage.py crontab show"
     #to delete, run "python manage.py crontab delete"
-    ('0 10,22 * * *', 'GrowYourEmpire.actions.main')
+    ('0 */12 * * *', 'GrowYourEmpire.actions.main')
 ]
 
 ROOT_URLCONF = 'Grow_your_empire.urls'
