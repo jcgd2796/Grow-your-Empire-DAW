@@ -13,7 +13,7 @@ def saveAttack(request):
 		soldiers = request.POST['units']
 		attacker = Village.objects.get(owner=request.user.student)
 		wantedResource = request.POST['wantedResource']
-		if int(soldiers) > attacker.soldiers:
+		if int(soldiers) > attacker.soldiers or int(soldiers) < 0 or attacker == defendant:
 			return redirect(indexView.manager)
 		else:
 			attack = Attack(attacker=attacker,defendant=defendant,usedSoldiers=soldiers,registeredDateTime=timezone.now(),completed = False,wantedResource=wantedResource)
@@ -79,8 +79,8 @@ def saveTrade(request):
 		buyer = Village.objects.get(villageName = request.POST['target'])
 		wantedRes = [request.POST['wantedWood'],request.POST['wantedStone'],request.POST['wantedFood']]
 		offeredRes = [request.POST['offeredWood'],request.POST['offeredStone'],request.POST['offeredFood']]
-		if int(offeredRes[0])>seller.storedWood or int(offeredRes[1]) > seller.storedStone or int(offeredRes[2]) > seller.storedFood:
-			#not enough resources to trade
+		if int(offeredRes[0])>seller.storedWood or int(offeredRes[1]) > seller.storedStone or int(offeredRes[2]) > seller.storedFood or seller.offeredRes[0] < 0 or seller.offeredRes[1] < 0 or seller.offeredRes[2] < 0 or seller.wantedRes[0] < 0 or seller.wantedRes[1] < 0 or seller.wantedRes[2] < 0 or seller == buyer:
+			#not enough resources to trade, or negative resources
 			return redirect(indexView.manager)
 		else:
 			tradeOffer = TradeOffer(source=seller, destination=buyer,wantedWood=wantedRes[0],wantedStone=wantedRes[1],wantedFood=wantedRes[2],offeredWood=offeredRes[0],offeredStone=offeredRes[1],offeredFood=offeredRes[2],accepted=False,registeredDateTime=timezone.now())
@@ -99,7 +99,9 @@ def saveUpgrade(request):
 	else:
 		village = Village.objects.get(owner=request.user.student)
 		building = int(request.POST['selectedIndex'])
-		if building == 1: #food
+		if(building < 1 or building > 5):
+			return redirect(indexView.manager)
+		elif building == 1: #food
 			if village.foodLevel == 10:
 				return redirect(indexView.manager)
 			level = village.foodLevel+1
@@ -130,10 +132,10 @@ def saveUpgrade(request):
 		elif building == 5: #storage
 			if village.storageLevel == 10:
 				return redirect(indexView.manager)
-
 			level = village.storageLevel+1
 			woodCost = village.storageLevel * 3
 			stoneCost = village.storageLevel * 2
+
 		if village.storedWood < woodCost or village.storedStone < stoneCost:
 			return redirect(indexView.manager)
 		else:
@@ -156,7 +158,7 @@ def saveTraining(request):
 	else:
 		village = Village.objects.get(owner=request.user.student)
 		soldiers = int(request.POST['amount'])
-		if village.storedFood < int(soldiers)*2:
+		if village.storedFood < int(soldiers)*2 or soldiers < 0:
 			return redirect(indexView.manager)
 		else:
 			village.storedFood-=(soldiers*2)
