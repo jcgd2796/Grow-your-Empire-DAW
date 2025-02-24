@@ -23,8 +23,7 @@
 
         <script type="text/javascript">
             function checkBounds(){
-                const building = document.getElementById("building");
-                const index = building.selectedIndex;
+                const index = parseInt(document.getElementById("selectedIndex").value)
                 if(index === 0){
                     M.toast({html: 'Selecciona un edificio para mejorar', classes: 'red'});
                     return false;

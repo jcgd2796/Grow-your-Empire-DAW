@@ -79,7 +79,7 @@ def saveTrade(request):
 		buyer = Village.objects.get(villageName = request.POST['target'])
 		wantedRes = [request.POST['wantedWood'],request.POST['wantedStone'],request.POST['wantedFood']]
 		offeredRes = [request.POST['offeredWood'],request.POST['offeredStone'],request.POST['offeredFood']]
-		if int(offeredRes[0])>seller.storedWood or int(offeredRes[1]) > seller.storedStone or int(offeredRes[2]) > seller.storedFood or seller.offeredRes[0] < 0 or seller.offeredRes[1] < 0 or seller.offeredRes[2] < 0 or seller.wantedRes[0] < 0 or seller.wantedRes[1] < 0 or seller.wantedRes[2] < 0 or seller == buyer:
+		if int(offeredRes[0])>seller.storedWood or int(offeredRes[1]) > seller.storedStone or int(offeredRes[2]) > seller.storedFood or int(offeredRes[0]) < 0 or int(offeredRes[1]) < 0 or int(offeredRes[2]) < 0 or int(wantedRes[0]) < 0 or int(wantedRes[1]) < 0 or int(wantedRes[2]) < 0 or seller == buyer:
 			#not enough resources to trade, or negative resources
 			return redirect(indexView.manager)
 		else:
