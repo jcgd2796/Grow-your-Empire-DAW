@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.utils import timezone
 from GrowYourEmpire.models import Bonus, Training, Upgrade, Village, Activity, Attack
+import random, traceback
 
 def processUpgrades():
 	upgrades = Upgrade.objects.filter(completed=False)
@@ -8,17 +9,17 @@ def processUpgrades():
 		village = Village.objects.get(owner = upgrade.village)
 		if upgrade.building == 1: #food
 			village.foodLevel += 1
-			village.dailyFood = round(village.dailyFood*1.1)
+			village.dailyFood = round(village.dailyFood*1.05)
 			village.save()
 			Activity(activityText='Ha finalizado la mejora de tu granja al nivel '+ str(village.foodLevel),activityDate=timezone.now(),owner=village).save()
 		elif upgrade.building == 2: #wood
 			village.woodLevel += 1
-			village.dailyWood = round(village.dailyWood*1.1)
+			village.dailyWood = round(village.dailyWood*1.05)
 			village.save()
 			Activity(activityText='Ha finalizado la mejora de tu aserradero al nivel '+ str(village.woodLevel),activityDate=timezone.now(),owner=village).save()
 		elif upgrade.building == 3: #stone
 			village.stoneLevel += 1
-			village.dailyStone = round(village.dailyStone*1.1)
+			village.dailyStone = round(village.dailyStone*1.05)
 			village.save()
 			Activity(activityText='Ha finalizado la mejora de tu cantera al nivel '+ str(village.stoneLevel),activityDate=timezone.now(),owner=village).save()
 		elif upgrade.building == 4: #wall
@@ -49,14 +50,29 @@ def processAttack():
 	for attack in attacks:
 		attacker = Village.objects.get(owner = attack.attacker)
 		defendant = Village.objects.get(owner = attack.defendant)
-		defendant_virtualUnits = round(defendant.soldiers*(1+0.1*defendant.wallLevel))
+		if (defendant.god == 'Zeus'):
+			defendant_virtualUnits = round(defendant.soldiers*(1+0.06*defendant.wallLevel))
+		else:
+			defendant_virtualUnits = round(defendant.soldiers*(1+0.05*defendant.wallLevel))
 		if attack.usedSoldiers > defendant_virtualUnits: #attacker wins
-			remainingSoldiers = round(attack.usedSoldiers - defendant_virtualUnits)
-			maxResources = remainingSoldiers*5
+			lostSoldiers = round(defendant_virtualUnits)
+			remainingSoldiers = attack.usedSoldiers
+			while lostSoldiers > 0:
+				if (attacker.god == 'Hades'):
+					if (random.randint(1,100) < 75): #25% chance of surviving.
+						remainingSoldiers -= 1
+					lostSoldiers -=1
+				else:
+					remainingSoldiers -= lostSoldiers
+					lostSoldiers = 0
+			if (attacker.god == 'Poseidón'):
+				maxResources = remainingSoldiers * 10
+			else:
+				maxResources = remainingSoldiers*5
 			availableResources = [
-				round(defendant.storedFood*(1-0.1*defendant.storageLevel)),
-				round(defendant.storedWood*(1-0.1*defendant.storageLevel)),
-				round(defendant.storedStone*(1-0.1*defendant.storageLevel))]
+				round(defendant.storedFood*(1-0.05*defendant.storageLevel)),
+				round(defendant.storedWood*(1-0.05*defendant.storageLevel)),
+				round(defendant.storedStone*(1-0.05*defendant.storageLevel))]
 			stolenResources = [0,0,0]
 			while maxResources > 0:
 				if (availableResources[attack.wantedResource] > 0): #there's resources available from the desired type
@@ -102,12 +118,12 @@ def processAttack():
 		else: #defendant wins
 			if defendant_virtualUnits - attack.usedSoldiers > defendant.soldiers: #defendant lost no soldiers
 				Activity(
-				activityText=attacker.villageName+' te ha atacado. Tus soldados han repelido el ataque. No has perdido soldados ni recursos'
+				activityText=attacker.villageName+' te ha atacado con '+attack.usedSoldiers+' unidades. Tus soldados han repelido el ataque. No has perdido soldados ni recursos'
 				,activityDate=timezone.now(),owner=defendant).save()
 			else:
 				lostSoldiers = defendant.soldiers - (defendant_virtualUnits - attack.usedSoldiers)
 				Activity(
-				activityText=attacker.villageName+' te ha atacado. Tus soldados han repelido el ataque. Has perdido '+str(lostSoldiers)+' soldados, pero no has perdido recursos'
+				activityText=attacker.villageName+' te ha atacado con '+attack.usedSoldiers+' unidades. Tus soldados han repelido el ataque. Has perdido '+str(lostSoldiers)+' soldados, pero no has perdido recursos'
 				,activityDate=timezone.now(),owner=defendant).save()
 				defendant.soldiers-=lostSoldiers
 				defendant.save()
@@ -127,9 +143,9 @@ def addResources():
 			totalMultiplier+=(bonus.bonusAmount/10)
 			bonus.completed = True
 			bonus.save()
-		village.storedFood += village.dailyFood*totalMultiplier
-		village.storedWood += village.dailyWood*totalMultiplier
-		village.storedStone += village.dailyStone*totalMultiplier
+		village.storedFood += round(village.dailyFood)*totalMultiplier
+		village.storedWood += round(village.dailyWood)*totalMultiplier
+		village.storedStone += round(village.dailyStone)*totalMultiplier
 		village.save()
 	return True
 
@@ -165,12 +181,18 @@ def disableVillages():
 	return True
 
 def main():
+	try:
 		disableVillages()
 		processBonuses()
 		processUpgrades()
 		processTraining()
 		processAttack()
 		addResources()
+	except Exception:
+		file = open("/home/jcgd/Documents/Grow_your_empire/DAWActivity/fichero.txt","w+")
+		file.write(traceback.format_exc())
+		file.close()
+		
 
 if __name__ == "__main__":
     main()

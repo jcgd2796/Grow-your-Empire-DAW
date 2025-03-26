@@ -47,15 +47,15 @@ def upgrade(request):
 		village = Village.objects.get(owner=request.user.student)
 		upgrades = Upgrade.objects.filter(village = village,completed = 0)
 		available = [1,2,3,4,5]
-		if village.foodLevel == 10:
+		if village.foodLevel == 20:
 			available.remove(1)
-		if village.woodLevel == 10:
+		if village.woodLevel == 20:
 			available.remove(2)
-		if village.stoneLevel == 10:
+		if village.stoneLevel == 20:
 			available.remove(3)
-		if village.wallLevel == 10:
+		if village.wallLevel == 20:
 			available.remove(4)
-		if village.storageLevel == 9:
+		if village.storageLevel == 19:
 			available.remove(5)
 		for upgrade in upgrades:
 			try:
@@ -102,35 +102,35 @@ def saveUpgrade(request):
 		if(building < 1 or building > 5):
 			return redirect(indexView.manager)
 		elif building == 1: #food
-			if village.foodLevel == 10:
+			if village.foodLevel == 20:
 				return redirect(indexView.manager)
 			level = village.foodLevel+1
 			woodCost = village.foodLevel * 7
 			stoneCost = village.foodLevel * 3
 
 		elif building == 2: #wood
-			if village.woodLevel == 10:
+			if village.woodLevel == 20:
 				return redirect(indexView.manager)
 			level = village.woodLevel+1
 			woodCost = village.woodLevel * 7
 			stoneCost = village.woodLevel * 3
 
 		elif building == 3: #stone
-			if village.stoneLevel == 10:
+			if village.stoneLevel == 20:
 				return redirect(indexView.manager)
 			level = village.stoneLevel+1
 			woodCost = village.stoneLevel * 7
 			stoneCost = village.stoneLevel * 3
 
 		elif building == 4: #wall
-			if village.wallLevel == 10:
+			if village.wallLevel == 20:
 				return redirect(indexView.manager)
 			level = village.wallLevel+1
 			woodCost = village.wallLevel * 5
 			stoneCost = village.wallLevel * 10
 
 		elif building == 5: #storage
-			if village.storageLevel == 10:
+			if village.storageLevel == 20:
 				return redirect(indexView.manager)
 			level = village.storageLevel+1
 			woodCost = village.storageLevel * 3

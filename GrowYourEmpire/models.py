@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User as User
 from django.utils import timezone
+import random
 # Create your models here.
 
 class Subject (models.Model):
@@ -15,11 +16,14 @@ class Student(models.Model):
 		return str(self.user.username)
 
 	def createVillage(self):
+		dailyFoodInit = float(random.randint(3,6))
+		dailyWoodInit = float(random.randint(3,6))
+		dailyStoneInit = 13.0-dailyFoodInit-dailyWoodInit
 		Village.objects.create(
             villageName = 'Aldea de '+self.user.username,
-			dailyFood = 5,
-			dailyWood = 5,
-			dailyStone = 3,
+			dailyFood = dailyFoodInit,
+			dailyWood = dailyWoodInit,
+			dailyStone = dailyStoneInit,
 			storedFood = 5,
 			storedWood = 5,
 			storedStone = 3,
@@ -49,9 +53,9 @@ class God(models.Model):
 
 class Village(models.Model):
 	villageName = models.CharField("Village Name",max_length=50)
-	dailyFood = models.IntegerField("Daily food obtained")
-	dailyWood = models.IntegerField("Daily wood obtained")
-	dailyStone = models.IntegerField("Daily stone obtained")
+	dailyFood = models.DecimalField("Daily food obtained", decimal_places = 2, max_digits = 6)
+	dailyWood = models.DecimalField("Daily wood obtained", decimal_places = 2, max_digits = 6)
+	dailyStone = models.DecimalField("Daily stone obtained", decimal_places = 2, max_digits = 6)
 	storedFood = models.IntegerField("Total food stored")
 	storedWood = models.IntegerField("Total wood stored")
 	storedStone = models.IntegerField("Total stone stored")
