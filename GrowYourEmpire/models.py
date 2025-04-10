@@ -304,7 +304,7 @@ class Bonus(models.Model):
 
 class New(models.Model):
 	title = models.CharField("Title",max_length=100)
-	desc = models.CharField("Description",max_length=2000)
+	desc = models.TextField("Description",max_length=2000)
 	registeredDateTime = models.DateTimeField("Registration date")
 
 	def __str__(self):

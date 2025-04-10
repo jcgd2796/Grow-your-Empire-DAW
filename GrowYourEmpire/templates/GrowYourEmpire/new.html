@@ -25,6 +25,9 @@
                 font-size: 1.2rem;
                 line-height: 1.6;
             }
+            .news-content p {
+                margin-bottom: 1em;
+            }
         </style>
     </head>
     <body class="grey lighten-5">
@@ -52,7 +55,7 @@
                                 {{news.0.title}}
                             </div>
                             <div class="news-content">
-                                {{news.0.desc}}
+                                {{news.0.desc|linebreaks}}
                             </div>
                         </div>
                     </div>

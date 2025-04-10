@@ -20,12 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '<SECRET_KEY>'
+SECRET_KEY = '<secret key>'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['<domain>']
+#ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,7 +58,7 @@ CRONJOBS = [
     #to enable, run "python manage.py crontab add"
     #to show, run "python manage.py crontab show"
     #to delete, run "python manage.py crontab delete"
-    ('0 */12 * * *', 'GrowYourEmpire.actions.main')
+    ('0 10,22 * * *', 'GrowYourEmpire.actions.main')
 ]
 
 ROOT_URLCONF = 'Grow_your_empire.urls'
@@ -79,6 +81,33 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Grow_your_empire.wsgi.application'
 
+#Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} [{levelname}] {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'cronfile': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'cron.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'cronjob': {
+            'handlers': ['cronfile'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -87,10 +116,10 @@ DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'GrowYourEmpire',
-            'USER': 'root',
-            'PASSWORD': 'root',
-            'HOST': 'localhost',
-            'PORT': '3306',
+            'USER': '<user>',
+            'PASSWORD': '<password>',
+            'HOST': '<host>',
+            'PORT': '<port>',
         }
     }
 
@@ -132,7 +161,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -140,6 +169,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuration for SSL
-SECURE_SSL_REDIRECT = False
-#SESSION_COOKIE_SECURE = False
-#CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

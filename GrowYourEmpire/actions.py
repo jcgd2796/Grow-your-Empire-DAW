@@ -1,7 +1,8 @@
 from datetime import timedelta
 from django.utils import timezone
 from GrowYourEmpire.models import Bonus, Training, Upgrade, Village, Activity, Attack
-import random, traceback
+import random, traceback, decimal
+import logging
 
 def processUpgrades():
 	upgrades = Upgrade.objects.filter(completed=False)
@@ -9,17 +10,17 @@ def processUpgrades():
 		village = Village.objects.get(owner = upgrade.village)
 		if upgrade.building == 1: #food
 			village.foodLevel += 1
-			village.dailyFood = round(village.dailyFood*1.05)
+			village.dailyFood = round(village.dailyFood*decimal.Decimal(1.05))
 			village.save()
 			Activity(activityText='Ha finalizado la mejora de tu granja al nivel '+ str(village.foodLevel),activityDate=timezone.now(),owner=village).save()
 		elif upgrade.building == 2: #wood
 			village.woodLevel += 1
-			village.dailyWood = round(village.dailyWood*1.05)
+			village.dailyWood = round(village.dailyWood*decimal.Decimal(1.05))
 			village.save()
 			Activity(activityText='Ha finalizado la mejora de tu aserradero al nivel '+ str(village.woodLevel),activityDate=timezone.now(),owner=village).save()
 		elif upgrade.building == 3: #stone
 			village.stoneLevel += 1
-			village.dailyStone = round(village.dailyStone*1.05)
+			village.dailyStone = round(village.dailyStone*decimal.Decimal(1.05))
 			village.save()
 			Activity(activityText='Ha finalizado la mejora de tu cantera al nivel '+ str(village.stoneLevel),activityDate=timezone.now(),owner=village).save()
 		elif upgrade.building == 4: #wall
@@ -181,6 +182,8 @@ def disableVillages():
 	return True
 
 def main():
+	logger = logging.getLogger('cronjob')
+	logger.info("Starting cronjob")
 	try:
 		disableVillages()
 		processBonuses()
@@ -188,11 +191,9 @@ def main():
 		processTraining()
 		processAttack()
 		addResources()
+		logger.info("Cronjob completed")
 	except Exception:
-		file = open("/home/jcgd/Documents/Grow_your_empire/DAWActivity/fichero.txt","w+")
-		file.write(traceback.format_exc())
-		file.close()
-		
+		logger.exception(traceback.format_exc())
 
 if __name__ == "__main__":
     main()
