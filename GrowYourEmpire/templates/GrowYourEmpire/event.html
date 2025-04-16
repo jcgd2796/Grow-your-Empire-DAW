@@ -13,13 +13,6 @@
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-        <style>
-            .nav-wrapper { padding: 0 20px; }
-            .card-title { padding: 20px; font-size: 24px; font-weight: bold; }
-            .donation-item { padding: 10px; }
-            .resource-icon { margin-right: 5px; }
-        </style>
-
         <script type="text/javascript">
             function checkBounds(){
                 if(document.getElementById("foodDonated") != null && 
@@ -51,7 +44,7 @@
             <div class="nav-wrapper">
                 <a class="brand-logo left" href="/GrowYourEmpire">Grow Your Empire</a>
                 <ul class="right">
-                    <li><a href="/GrowYourEmpire/events" class="tooltipped" data-position="bottom" data-tooltip="Volver a eventos">
+                    <li><a href="/GrowYourEmpire/events" data-position="bottom">
                         <i class="material-icons left">arrow_back</i>Volver
                     </a></li>
                 </ul>
@@ -62,12 +55,14 @@
             <!-- Event Description -->
             <div class="row">
                 <div class="col s12">
-                    <div class="card">
-                        <div class="card-content blue lighten-4">
+                    <div class="card blue lighten-4">
+                        <div class="card-content">
                             <h4>{{event.title}}</h4>
                             <p class="flow-text">{{event.desc}}</p>
-                            <p>Fecha de inicio: {{event.startDate|date:"d/m/Y"}}</p>
-                            <p>Fecha de fin: {{event.endDate|date:"d/m/Y"}}</p>
+                            <div>
+                                <p><i class="material-icons tiny">event</i>Fecha de inicio: {{event.startDate|date:"d/m/Y"}}</p>
+                                <p><i class="material-icons tiny">event</i>Fecha de fin: {{event.endDate|date:"d/m/Y"}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,42 +71,42 @@
             <!-- Donation Form -->
             <div class="row">
                 <div class="col s12">
-                    <div class="card">
-                        <div class="card-content blue lighten-4">
+                    <div class="card blue lighten-5">
+                        <div class="card-content">
                             <span class="card-title">
-                                Realizar aportación a evento
+                                <i class="material-icons left">redeem</i>Realizar aportación a evento
                             </span>
                             <form action="./donate" name="eventForm" onsubmit="return checkBounds()" method="POST">
                                 {% csrf_token %}
                                 <div class="row">
                                     {% if event.foodRequired > 0 %}
-                                        <div class="input-field col s3">
-                                            <p>Comida (Restante: {{event.foodRequired}})</p>
-                                            <input type="number" min="0" max="{{event.foodRequired}}" name="foodDonated" id="foodDonated" value="0">  
+                                        <div class="input-field col s12 m3">
+                                            <p><i class="material-icons tiny">restaurant</i>Comida (Restante: {{event.foodRequired}})</p>
+                                            <input type="number" min="0" max="{{event.foodRequired}}" name="foodDonated" id="foodDonated" value="0" class="validate">  
                                         </div>
                                     {% endif %}
                                     {% if event.woodRequired > 0 %}
-                                        <div class="input-field col s3">
-                                            <p>Madera (Restante: {{event.woodRequired}})</p>
-                                            <input type="number" min="0" max="{{event.woodRequired}}" name="woodDonated" id="woodDonated" value="0">
+                                        <div class="input-field col s12 m3">
+                                            <p><i class="material-icons tiny">park</i>Madera (Restante: {{event.woodRequired}})</p>
+                                            <input type="number" min="0" max="{{event.woodRequired}}" name="woodDonated" id="woodDonated" value="0" class="validate">
                                         </div>
                                     {% endif %}
                                     {% if event.stoneRequired > 0 %}
-                                        <div class="input-field col s3">
-                                            <p>Piedra (Restante: {{event.stoneRequired}})</p>
-                                            <input type="number" min="0" max="{{event.stoneRequired}}" name="stoneDonated" id="stoneDonated" value="0">
+                                        <div class="input-field col s12 m3">
+                                            <p><i class="material-icons tiny">landscape</i>Piedra (Restante: {{event.stoneRequired}})</p>
+                                            <input type="number" min="0" max="{{event.stoneRequired}}" name="stoneDonated" id="stoneDonated" value="0" class="validate">
                                         </div>
                                     {% endif %}
                                     {% if event.soldiersRequired > 0 %}
-                                        <div class="input-field col s3">
-                                            <p>Soldados (Restante: {{event.soldiersRequired}})</p>
-                                            <input type="number" min="0" max="{{event.soldiersRequired}}" name="soldiersDonated" id="soldiersDonated" value="0">
+                                        <div class="input-field col s12 m3">
+                                            <p><i class="material-icons tiny">military_tech</i>Soldados (Restante: {{event.soldiersRequired}})</p>
+                                            <input type="number" min="0" max="{{event.soldiersRequired}}" name="soldiersDonated" id="soldiersDonated" value="0" class="validate">
                                         </div>
                                     {% endif %}
                                 </div>
                                 {% if event.foodRequired > 0 or event.woodRequired > 0 or event.stoneRequired > 0 or event.soldiersRequired > 0 %}
                                     <div class="card-action center-align">
-                                        <button class="btn waves-effect waves-light blue darken-2" type="submit">
+                                        <button class="btn waves-effect waves-light blue darken-1" type="submit">
                                             <i class="material-icons left">send</i>Donar
                                         </button>
                                     </div>
@@ -125,27 +120,27 @@
             <!-- Recent Donations -->
             <div class="row">
                 <div class="col s12">
-                    <div class="card">
-                        <div class="card-content blue lighten-4">
+                    <div class="card blue lighten-5">
+                        <div class="card-content">
                             <span class="card-title">
                                 <i class="material-icons left">history</i>Donaciones Recientes
                             </span>
                             <div class="collection">
                                 {% for donation in donations %}
-                                    <div class="collection-item donation-item">
+                                    <div class="collection-item">
                                         <span class="title">{{donation.owner.villageName}}</span>
                                         <p>
                                             {% if donation.donatedFood > 0 %}
-                                                <i class="material-icons tiny resource-icon">restaurant</i>{{donation.donatedFood}} comida
+                                                <i class="material-icons tiny">restaurant</i>{{donation.donatedFood}} comida
                                             {% endif %}
                                             {% if donation.donatedWood > 0 %}
-                                                <i class="material-icons tiny resource-icon">park</i>{{donation.donatedWood}} madera
+                                                <i class="material-icons tiny">park</i>{{donation.donatedWood}} madera
                                             {% endif %}
                                             {% if donation.donatedStone > 0 %}
-                                                <i class="material-icons tiny resource-icon">landscape</i>{{donation.donatedStone}} piedra
+                                                <i class="material-icons tiny">landscape</i>{{donation.donatedStone}} piedra
                                             {% endif %}
                                             {% if donation.donatedSoldiers > 0 %}
-                                                <i class="material-icons tiny resource-icon">military_tech</i>{{donation.donatedSoldiers}} soldados
+                                                <i class="material-icons tiny">military_tech</i>{{donation.donatedSoldiers}} soldados
                                             {% endif %}
                                         </p>
                                     </div>
@@ -156,12 +151,5 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var tooltips = document.querySelectorAll('.tooltipped');
-                M.Tooltip.init(tooltips);
-            });
-        </script>
     </body>
 </html>

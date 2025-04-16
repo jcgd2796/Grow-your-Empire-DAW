@@ -1,8 +1,10 @@
-Para poder utilizar la aplicación correctamente, son necesarias las librerías de Python "django-crontab", "pymysql", y "django-nested-admin".
+Para poder utilizar la aplicación correctamente, son necesarias las librerías de Python "django-crontab", "pymysql", "gevent", "whitenoise" y "django-nested-admin".
 ```
 python -m pip install django-crontab
 python -m pip install pymysql
 python -m pip install django-nested-admin
+python -m pip install gevent
+python -m pip install whitenoise
 ```
 También se deben generar certificados para que la aplicación se encuentre disponible a través de HTTPS
 ```

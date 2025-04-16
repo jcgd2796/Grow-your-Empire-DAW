@@ -319,7 +319,7 @@ class New(models.Model):
 
 class Event(models.Model):
 	title = models.CharField("Title",max_length=100)
-	desc = models.CharField("Description",max_length=2000)
+	desc = models.TextField("Description",max_length=2000)
 	startDate = models.DateTimeField("Event start date")
 	endDate = models.DateTimeField("Event end date")
 	foodRequired = models.IntegerField("Food required")

@@ -292,7 +292,7 @@ def donateEvent(request,eventId):
 			donatedSoldiers = int(request.POST['soldiersDonated'])
 		else:
 			donatedSoldiers = 0
-		if (donatedFood < 0 and donatedWood < 0 and donatedStone < 0 and donatedSoldiers < 0) or (donatedFood > event.foodRequired or donatedWood > event.woodRequired or donatedStone > event.stoneRequired or donatedSoldiers > event.soldiersRequired) or (donatedFood > village.storedFood or donatedWood > village.storedWood or donatedStone > village.storedStone or donatedSoldiers > village.soldiers):
+		if (donatedFood < 0 or donatedWood < 0 or donatedStone < 0 or donatedSoldiers < 0) or (donatedFood > event.foodRequired or donatedWood > event.woodRequired or donatedStone > event.stoneRequired or donatedSoldiers > event.soldiersRequired) or (donatedFood > village.storedFood or donatedWood > village.storedWood or donatedStone > village.storedStone or donatedSoldiers > village.soldiers or (donatedFood == 0 and donatedWood == 0 and donatedStone == 0 and donatedSoldiers == 0)):
 			return redirect(indexView.manager)
 		else:
 			village.storedFood-=donatedFood
